@@ -1,0 +1,35 @@
+body {
+	background-color: #eeeeee;
+}
+
+#bd {
+	padding-top: 60px;
+}
+
+#ft {
+	 
+	padding-top: 60px;
+}
+
+#ft div {
+	border-top: thick double #ffffff;
+	margin-left : 40px;
+	margin-right : 40px;
+}
+
+.panel-hd {
+	border-bottom: thick double #ffffff;
+}
+
+.btn {
+	margin-bottom: 10px;
+}
+
+.icon {
+	width: 16px; 
+	height: 16px;
+}
+
+tbody a {
+	color : #0088CC;
+}
