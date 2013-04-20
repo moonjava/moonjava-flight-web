@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.controller.base.PassagemLoader;
@@ -50,7 +51,7 @@ public class PassagemDAO implements Passagem.Jdbc {
   }
 
   @Override
-  public boolean vender(Passagem passagem) {
+  public boolean vender(Passagem passagem) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -75,7 +76,7 @@ public class PassagemDAO implements Passagem.Jdbc {
   }
 
   @Override
-  public boolean transferir(Passagem passagem) {
+  public boolean transferir(Passagem passagem) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -99,7 +100,7 @@ public class PassagemDAO implements Passagem.Jdbc {
   }
 
   @Override
-  public boolean efetuarCheckin(Passagem pojo, String assento) {
+  public boolean efetuarCheckin(Passagem pojo, String assento) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -113,7 +114,7 @@ public class PassagemDAO implements Passagem.Jdbc {
   }
 
   @Override
-  public boolean cancelarPorVoo(Voo pojo) {
+  public boolean cancelarPorVoo(Voo pojo) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -127,7 +128,7 @@ public class PassagemDAO implements Passagem.Jdbc {
   }
 
   @Override
-  public boolean efetuarCancelamento(Passagem pojo) {
+  public boolean efetuarCancelamento(Passagem pojo) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 

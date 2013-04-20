@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -48,7 +49,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public boolean criar(Voo voo) {
+  public boolean criar(Voo voo) throws SQLException {
     boolean executed = false;
     if (voo != null) {
       Aeronave aeronave = voo.getAeronave();
@@ -130,7 +131,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public boolean atualizar(Voo voo) {
+  public boolean atualizar(Voo voo) throws SQLException {
     boolean executed = false;
     if (voo != null) {
       executed = new SqlStatementWrapper()
@@ -149,7 +150,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public void deletar(int id) {
+  public void deletar(int id) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -160,7 +161,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public void deletarPorAeronaveId(int id) {
+  public void deletarPorAeronaveId(int id) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -171,7 +172,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public void controlarStatus(int id, Status status) {
+  public void controlarStatus(int id, Status status) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -184,7 +185,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public void incrementarAssento(int id) {
+  public void incrementarAssento(int id) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -197,7 +198,7 @@ public class VooDAO implements Voo.Jdbc {
   }
 
   @Override
-  public void decrementarAssento(int id) {
+  public void decrementarAssento(int id) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
