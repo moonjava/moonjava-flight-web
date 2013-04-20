@@ -19,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -48,7 +49,7 @@ public class TesteDeDeletarAeronave {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void deletar() {
+  public void deletar() throws SQLException {
     PassagemDAO passagemDAO = new PassagemDAO();
     VooDAO vooDAO = new VooDAO();
     AeronaveDAO aeronaveDAO = new AeronaveDAO();
