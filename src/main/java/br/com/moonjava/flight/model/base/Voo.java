@@ -15,12 +15,12 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
 import br.com.moonjava.flight.util.RequestParam;
-import br.com.moonjava.flight.util.RequestParamWrapper;
 
 /**
  * @version 1.0 Apr 10, 2012
@@ -59,23 +59,23 @@ public interface Voo {
 
     List<Voo> consultaPainel();
 
-    boolean criar(Voo voo);
+    boolean criar(Voo voo) throws SQLException;
 
     List<Voo> consultar(RequestParam request);
 
     Voo consultarPorId(int id);
 
-    boolean atualizar(Voo voo);
+    boolean atualizar(Voo voo) throws SQLException;
 
-    void deletar(int id);
+    void deletar(int id) throws SQLException;
 
-    void deletarPorAeronaveId(int id);
+    void deletarPorAeronaveId(int id) throws SQLException;
 
-    void controlarStatus(int id, Status status);
+    void controlarStatus(int id, Status status) throws SQLException;
 
-    void incrementarAssento(int id);
+    void incrementarAssento(int id) throws SQLException;
 
-    void decrementarAssento(int id);
+    void decrementarAssento(int id) throws SQLException;
 
     List<Voo> consultarPorAeronaveId(int id);
   }
@@ -106,23 +106,23 @@ public interface Voo {
 
   List<Voo> consultaPainel();
 
-  boolean criar(Voo pojo);
+  boolean criar(Voo pojo) throws SQLException;
 
-  List<Voo> consultar(RequestParamWrapper request);
+  List<Voo> consultar(RequestParam request);
 
   Voo consultarPorId(int id);
 
-  boolean atualizar(Voo pojo);
+  boolean atualizar(Voo pojo) throws SQLException;
 
-  void deletar(int id);
+  void deletar(int id) throws SQLException;
 
-  void deletaPorAeronaveId(int aeronaveId);
+  void deletaPorAeronaveId(int aeronaveId) throws SQLException;
 
-  void controlarStatus(int id, Status fromString);
+  void controlarStatus(int id, Status fromString) throws SQLException;
 
-  void incrementarAssento(int vooId);
+  void incrementarAssento(int vooId) throws SQLException;
 
-  void decrementarAssento(int vooId);
+  void decrementarAssento(int vooId) throws SQLException;
 
   List<Voo> consultarPorAeronaveId(int id);
 

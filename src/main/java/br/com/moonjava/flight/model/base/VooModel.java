@@ -15,12 +15,13 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
 import br.com.moonjava.flight.dao.base.VooDAO;
-import br.com.moonjava.flight.util.RequestParamWrapper;
+import br.com.moonjava.flight.util.RequestParam;
 
 /**
  * @version 1.0 Apr 10, 2012
@@ -131,42 +132,42 @@ public class VooModel implements Voo {
   }
 
   @Override
-  public boolean criar(Voo pojo) {
+  public boolean criar(Voo pojo) throws SQLException {
     return dao.criar(pojo);
   }
 
   @Override
-  public List<Voo> consultar(RequestParamWrapper request) {
+  public List<Voo> consultar(RequestParam request) {
     return dao.consultar(request);
   }
 
   @Override
-  public void deletar(int id) {
+  public void deletar(int id) throws SQLException {
     dao.deletar(id);
   }
 
   @Override
-  public boolean atualizar(Voo pojo) {
+  public boolean atualizar(Voo pojo) throws SQLException {
     return dao.atualizar(pojo);
   }
 
   @Override
-  public void controlarStatus(int id, Status fromString) {
+  public void controlarStatus(int id, Status fromString) throws SQLException {
     dao.controlarStatus(id, fromString);
   }
 
   @Override
-  public void incrementarAssento(int vooId) {
+  public void incrementarAssento(int vooId) throws SQLException {
     dao.incrementarAssento(vooId);
   }
 
   @Override
-  public void decrementarAssento(int vooId) {
+  public void decrementarAssento(int vooId) throws SQLException {
     dao.decrementarAssento(vooId);
   }
 
   @Override
-  public void deletaPorAeronaveId(int aeronaveId) {
+  public void deletaPorAeronaveId(int aeronaveId) throws SQLException {
     dao.deletarPorAeronaveId(aeronaveId);
   }
 

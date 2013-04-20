@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -37,19 +38,19 @@ public interface Passagem {
 
   interface Jdbc {
 
-    boolean vender(Passagem passagem);
+    boolean vender(Passagem passagem) throws SQLException;
 
     Passagem consultarPorCodigoBilhete(String bilhete);
 
-    boolean transferir(Passagem passagem);
+    boolean transferir(Passagem passagem) throws SQLException;
 
     List<Passagem> consultarPorVoo(Voo voo);
 
-    boolean efetuarCheckin(Passagem pojo, String assento);
+    boolean efetuarCheckin(Passagem pojo, String assento) throws SQLException;
 
-    boolean efetuarCancelamento(Passagem pojo);
+    boolean efetuarCancelamento(Passagem pojo) throws SQLException;
 
-    boolean cancelarPorVoo(Voo pojo);
+    boolean cancelarPorVoo(Voo pojo) throws SQLException;
 
   }
 
@@ -63,19 +64,19 @@ public interface Passagem {
 
   String getAssento();
 
-  boolean vender(Passagem pojo);
+  boolean vender(Passagem pojo) throws SQLException;
 
   Passagem consultarPorCodigoBilhete(String bilhete);
 
-  boolean transferir(Passagem passagem);
+  boolean transferir(Passagem passagem) throws SQLException;
 
   List<Passagem> consultarPorVoo(Voo voo);
 
-  boolean efetuarCheckin(Passagem pojo, String assento);
+  boolean efetuarCheckin(Passagem pojo, String assento) throws SQLException;
 
-  boolean efetuarCancelamento(Passagem pojo);
+  boolean efetuarCancelamento(Passagem pojo) throws SQLException;
 
-  boolean cancelarPorVoo(Voo voo);
+  boolean cancelarPorVoo(Voo voo) throws SQLException;
 
   double getPreco(Passagem passagem);
 
