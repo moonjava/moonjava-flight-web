@@ -15,60 +15,49 @@ var PageDelete = new Class({
       }
 
       if (hasItem) {
-        $$('.del').each(function(el) {
-          
-          if (el.checked) {
-            
-            new Request.JSON({
-              method : 'POST',
-              url : res,
-              update : document.id(options.id),
-              data : {
-                id : el.value
-              },
-              onSuccess : function(response) {
-                
-                if (response.success !== undefined) {
-                window.location = options.page;
-//                  if (document.id('ok') == null) {
-                    
-//                    var el = new Element('div', {
-//                      'id' : 'ok',
-//                      'class' : 'alert alert-info fade in',
-//                      'text' : options.deleteSuccessMsg
-//                    });
-//                    el.inject('notification');
-//                    el = new Element('button', {
-//                      'type' : 'button',
-//                      'class' : 'close',
-//                      'text' : '×',
-//                      'data-dismiss' : 'alert'
-//                    });
-//                    el.inject('ok');
-                    
-//                  }
-                } else {
-                  if (document.id('err') == null) {
-                    var el = new Element('div', {
-                      'id' : 'err',
-                      'class' : 'alert alert-error fade in',
-                      'text' : response.exception
-                    });
-                    el.inject('notification');
-                    el = new Element('button', {
-                      'type' : 'button',
-                      'class' : 'close',
-                      'text' : '×',
-                      'data-dismiss' : 'alert'
-                    });
-                    el.inject('err');
+        $('#myModal').modal('show');
+
+        document.id('delete-ok').addEvent('click', function() {
+          $('#myModal').modal('hide');
+
+          $$('.del').each(function(el) {
+
+            if (el.checked) {
+
+              new Request.JSON({
+                method : 'POST',
+                url : res,
+                update : document.id(options.id),
+                data : {
+                  id : el.value
+                },
+                onSuccess : function(response) {
+
+                  if (response.success !== undefined) {
+                    window.location = options.page;
+                  } else {
+                    if (document.id('err') == null) {
+                      var el = new Element('div', {
+                        'id' : 'err',
+                        'class' : 'alert alert-error fade in',
+                        'text' : response.exception
+                      });
+                      el.inject('notification');
+                      el = new Element('button', {
+                        'type' : 'button',
+                        'class' : 'close',
+                        'text' : '×',
+                        'data-dismiss' : 'alert'
+                      });
+                      el.inject('err');
+                    }
                   }
-                }
-                
-              },
-            }).send();
-            
-          }
+
+                },
+              }).send();
+
+            }
+          });
         });
       } else {
         if (document.id('sub') == null) {

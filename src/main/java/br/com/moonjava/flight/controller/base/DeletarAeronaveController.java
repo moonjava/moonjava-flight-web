@@ -18,6 +18,7 @@ package br.com.moonjava.flight.controller.base;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.AeronaveModel;
+import br.com.moonjava.flight.model.base.PassagemModel;
+import br.com.moonjava.flight.model.base.Voo;
+import br.com.moonjava.flight.model.base.VooModel;
 import br.com.moonjava.flight.util.FlightRequestWrapper;
 import br.com.moonjava.flight.util.JSONObject;
 
@@ -52,6 +56,11 @@ public class DeletarAeronaveController extends HttpServlet {
     Integer id = wrapper.intParam("id");
 
     try {
+      List<Voo> voos = new VooModel().consultarPorAeronaveId(id);
+      for (Voo voo : voos) {
+        new PassagemModel().cancelarPorVoo(voo);
+      }
+      new VooModel().deletaPorAeronaveId(id);
       new AeronaveModel().deletar(id);
       obj.put("success", "true");
     } catch (SQLException e) {
@@ -61,4 +70,5 @@ public class DeletarAeronaveController extends HttpServlet {
     }
     out.print(obj);
   }
+
 }

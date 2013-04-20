@@ -1,5 +1,6 @@
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -82,12 +83,12 @@ public class PassagemModel implements Passagem {
   }
 
   @Override
-  public boolean transferir(Passagem pojo) {
+  public boolean transferir(Passagem pojo) throws SQLException {
     return dao.transferir(pojo);
   }
 
   @Override
-  public boolean vender(Passagem pojo) {
+  public boolean vender(Passagem pojo) throws SQLException {
     return dao.vender(pojo);
   }
 
@@ -102,17 +103,17 @@ public class PassagemModel implements Passagem {
   }
 
   @Override
-  public boolean efetuarCheckin(Passagem pojo, String assento) {
+  public boolean efetuarCheckin(Passagem pojo, String assento) throws SQLException {
     return dao.efetuarCheckin(pojo, assento);
   }
 
   @Override
-  public boolean cancelarPorVoo(Voo pojo) {
+  public boolean cancelarPorVoo(Voo pojo) throws SQLException {
     return dao.cancelarPorVoo(pojo);
   }
 
   @Override
-  public boolean efetuarCancelamento(Passagem pojo) {
+  public boolean efetuarCancelamento(Passagem pojo) throws SQLException {
     return dao.efetuarCancelamento(pojo);
   }
 

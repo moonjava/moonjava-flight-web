@@ -25,20 +25,34 @@
             <input id="nome" class="span2" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.nome" />" /> 
 
             <button id="refresh" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="aeronave.limpar" /></button>
-            <button id="update" class="btn btn-success pull-right"><i class="icon-ok-sign icon-white"></i> <fmt:message key="aeronave.atualizar" /></button>
+            <button id="update" class="btn btn-success"><i class="icon-ok-sign icon-white"></i> <fmt:message key="aeronave.atualizar" /></button>
             <button id="delete" class="btn btn-danger"><i class="icon-trash icon-white"></i> <fmt:message key="aeronave.deletar" /></button>
+            <button id="delete" class="btn btn-primary pull-right"><i class="icon-plane icon-white"></i> <fmt:message key="consultar.aeronave.botao.mapa" /></button>
 
-            <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="aeronave.limpar" />">
+            <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="consultar.joption.erro" />">
             <div id="notification"></div>
-            
 
           </div>
 
           <div id="content"></div> <!-- Aqui o JS exibe a tabela (aeronave-table.jsp) quando carregado a pagina -->
         </div>
       </div>
-    
-    <c:import url="footer.jsp" />
+
+      <!-- Modal para validar delete-->
+      <div  id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <h3 id="myModalLabel"><fmt:message key="deletar.joption.titulo" /></h3>
+        </div>
+        <div class="modal-body">
+          <p><fmt:message key="deletar.joption.msg" /></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true"><fmt:message key="cancelar" /></button>
+          <button id="delete-ok" class="btn btn-primary" style="margin-bottom: 10px;">Ok</button>
+        </div>
+      </div>
+
+      <c:import url="footer.jsp" />
     </div>
   </div>
 
