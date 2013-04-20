@@ -112,31 +112,36 @@ public class SqlStatementWrapper implements SqlStatement {
   @Override
   public <T> T andGet() {
     T t = null;
+    ResultSet resultSet = null;
     try {
       stm = connection.prepareStatement(this.syntax);
 
       SqlStatementExecute.setStmt(stm, params, value);
       logger.info(stm.toString());
       stm.execute();
-      ResultSet resultSet = stm.getResultSet();
+      resultSet = stm.getResultSet();
 
       while (resultSet.next()) {
         t = (T) loader.get(resultSet);
       }
 
-      stm.close();
-      resultSet.close();
-      connection.close();
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        stm.close();
+        resultSet.close();
+        connection.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
 
     return t;
   }
 
   @Override
-  public boolean andExecute() {
+  public boolean andExecute() throws SQLException {
     boolean res = false;
     try {
       stm = connection.prepareStatement(this.syntax);
@@ -144,13 +149,14 @@ public class SqlStatementWrapper implements SqlStatement {
       logger.info(stm.toString());
       stm.executeUpdate();
 
-      stm.close();
-      connection.close();
       res = true;
       return res;
     } catch (SQLException e) {
       logger.error(e.toString());
-      return res;
+      throw new SQLException(e);
+    } finally {
+      stm.close();
+      connection.close();
     }
   }
 

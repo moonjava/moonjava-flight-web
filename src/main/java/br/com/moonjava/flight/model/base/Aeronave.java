@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.util.RequestParam;
@@ -40,13 +41,13 @@ public interface Aeronave {
 
   interface Jdbc {
 
-    void criar(Aeronave aeronave);
+    void criar(Aeronave aeronave) throws SQLException;
 
     List<Aeronave> consultar(RequestParam request);
 
-    void atualizar(Aeronave aeronave);
+    void atualizar(Aeronave aeronave) throws SQLException;
 
-    boolean deletar(int id);
+    boolean deletar(int id) throws SQLException;
   }
 
   int getId();
@@ -59,12 +60,12 @@ public interface Aeronave {
 
   boolean isMapa();
 
-  void criar(Aeronave pojo);
+  void criar(Aeronave pojo) throws SQLException;
 
   List<Aeronave> consultar(RequestParam request);
 
-  boolean deletar(int id);
+  boolean deletar(int id) throws SQLException;
 
-  void atualizar(Aeronave aeronave);
+  void atualizar(Aeronave aeronave) throws SQLException;
 
 }
