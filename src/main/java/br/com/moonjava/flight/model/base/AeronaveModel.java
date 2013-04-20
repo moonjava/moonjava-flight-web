@@ -95,8 +95,8 @@ public class AeronaveModel implements Aeronave {
   }
 
   @Override
-  public void deletar(int id) {
-    dao.deletar(id);
+  public boolean deletar(int id) {
+    return dao.deletar(id);
   }
 
 }
