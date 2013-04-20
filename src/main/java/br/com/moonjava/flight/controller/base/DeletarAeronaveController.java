@@ -17,6 +17,7 @@ package br.com.moonjava.flight.controller.base;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,12 +25,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.AeronaveModel;
 import br.com.moonjava.flight.util.FlightRequestWrapper;
+import br.com.moonjava.flight.util.JSONObject;
 
 /**
  * @version 1.0 Aug 16, 2012
@@ -53,13 +52,12 @@ public class DeletarAeronaveController extends HttpServlet {
     Integer id = wrapper.intParam("id");
 
     try {
-      boolean deleted = new AeronaveModel().deletar(id);
-      if (deleted)
-        obj.put("response", "success");
-      else
-        obj.put("response", "failure");
-    } catch (JSONException e) {
-      core.logError("JSON Object has failed", e);
+      new AeronaveModel().deletar(id);
+      obj.put("success", "true");
+    } catch (SQLException e) {
+      obj.put("failure", "true");
+      obj.put("exception", e);
+      core.logError("SQL Aeronave has failed", e);
     }
     out.print(obj);
   }
