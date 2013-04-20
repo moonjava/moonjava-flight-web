@@ -46,7 +46,7 @@ public interface Aeronave {
 
     void atualizar(Aeronave aeronave);
 
-    void deletar(int id);
+    boolean deletar(int id);
   }
 
   int getId();
@@ -63,7 +63,7 @@ public interface Aeronave {
 
   List<Aeronave> consultar(RequestParam request);
 
-  void deletar(int id);
+  boolean deletar(int id);
 
   void atualizar(Aeronave aeronave);
 

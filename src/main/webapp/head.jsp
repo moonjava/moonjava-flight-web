@@ -20,7 +20,8 @@
 <script type="text/javascript" src="js/mootools-core-1.4.5-full-compat.js"></script>
 <script type="text/javascript" src="js/mootools-more.js"></script>
 
-<script type="text/javascript" src="js/Page.js"></script>
+<script type="text/javascript" src="js/PageDelete.js"></script>
+<script type="text/javascript" src="js/PageSearch.js"></script>
 <script type="text/javascript" src="js/PageStatus.js"></script>
 
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
