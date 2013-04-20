@@ -29,7 +29,6 @@
             <button id="delete" class="btn btn-danger"><i class="icon-trash icon-white"></i> <fmt:message key="aeronave.deletar" /></button>
 
             <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="aeronave.limpar" />">
-            <input type="hidden" id="successDeleteMsg" value="<fmt:message key="aeronave.limpar" />">
             <div id="notification"></div>
             
 
@@ -46,13 +45,12 @@
 <script type="text/javascript">
   window.addEvent('domready', function() {
     var msgDeleteError = document.id('errorDeleteMsg').get('value');
-    var msgDeleteSuccess = document.id('successDeleteMsg').get('value');
     
     new PageDelete({
       id : 'content', // Local onde sera renderizado
+      page : '/moonjava-flight-web/consultar-aeronave.jsp', // Pagina para refresh apos deletar item
       deleteUrl : '/moonjava-flight-web/base/aeronave/del', // url para deletar
       deleteErrorMsg : msgDeleteError, // mensagem de erro
-      deleteSuccessMsg : msgDeleteSuccess
     });
     
     new PageSearch({

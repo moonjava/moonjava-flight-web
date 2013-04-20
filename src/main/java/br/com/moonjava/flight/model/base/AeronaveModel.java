@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.dao.base.AeronaveDAO;
@@ -80,7 +81,7 @@ public class AeronaveModel implements Aeronave {
   }
 
   @Override
-  public void criar(Aeronave pojo) {
+  public void criar(Aeronave pojo) throws SQLException {
     dao.criar(pojo);
   }
 
@@ -90,12 +91,12 @@ public class AeronaveModel implements Aeronave {
   }
 
   @Override
-  public void atualizar(Aeronave pojo) {
+  public void atualizar(Aeronave pojo) throws SQLException {
     dao.atualizar(pojo);
   }
 
   @Override
-  public boolean deletar(int id) {
+  public boolean deletar(int id) throws SQLException {
     return dao.deletar(id);
   }
 

@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.controller.base.AeronaveLoader;
@@ -41,7 +42,7 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
-  public void criar(Aeronave aeronave) {
+  public void criar(Aeronave aeronave) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -72,7 +73,7 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
-  public void atualizar(Aeronave aeronave) {
+  public void atualizar(Aeronave aeronave) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
@@ -84,7 +85,7 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
-  public boolean deletar(int id) {
+  public boolean deletar(int id) throws SQLException {
     return new SqlStatementWrapper()
         .prepare()
 
