@@ -28,12 +28,14 @@
             <button id="update" class="btn btn-success pull-right"><i class="icon-ok-sign icon-white"></i> <fmt:message key="aeronave.atualizar" /></button>
             <button id="delete" class="btn btn-danger"><i class="icon-trash icon-white"></i> <fmt:message key="aeronave.deletar" /></button>
 
-            <div id="error"></div>
             <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="aeronave.limpar" />">
+            <input type="hidden" id="successDeleteMsg" value="<fmt:message key="aeronave.limpar" />">
+            <div id="notification"></div>
+            
 
           </div>
 
-          <div id="content"></div>
+          <div id="content"></div> <!-- Aqui o JS exibe a tabela (aeronave-table.jsp) quando carregado a pagina -->
         </div>
       </div>
     
@@ -41,30 +43,25 @@
     </div>
   </div>
 
-
 <script type="text/javascript">
   window.addEvent('domready', function() {
-    var msgDelete = document.id('errorDeleteMsg').get('value');
-    var p = new Page({
-      id : 'content',
-      page : '/moonjava-flight-web/consultar-aeronave.jsp',
-      serviceUrl : '/moonjava-flight-web/base/aeronave',
-      deleteUrl : '/moonjava-flight-web/base/aeronave/del',
-      deleteErrorMsg : msgDelete
+    var msgDeleteError = document.id('errorDeleteMsg').get('value');
+    var msgDeleteSuccess = document.id('successDeleteMsg').get('value');
+    
+    new PageDelete({
+      id : 'content', // Local onde sera renderizado
+      deleteUrl : '/moonjava-flight-web/base/aeronave/del', // url para deletar
+      deleteErrorMsg : msgDeleteError, // mensagem de erro
+      deleteSuccessMsg : msgDeleteSuccess
     });
     
-    search = function() {
-      return obj = {
-          nome : document.id('nome').get('value'),
-          codigo : document.id('codigo').get('value')
+    new PageSearch({
+      id : 'content', // Local onde sera renderizado a consulta
+      serviceUrl : '/moonjava-flight-web/base/aeronave', // url da tabela de acordo com o filtro
+      filter : { // Filtros de campos de textos
+        nome : document.id('nome').get('value'),
+        codigo : document.id('codigo').get('value')
       }
-    }
-    
-    var el = document.getElementsByTagName('input');
-    Array.each(el, function(key) {
-      key.addEvent('keyup', function() {
-        p.finder(search());
-      });
     });
     
   });

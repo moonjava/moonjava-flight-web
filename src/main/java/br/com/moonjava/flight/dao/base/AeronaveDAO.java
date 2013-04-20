@@ -84,8 +84,8 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
-  public void deletar(int id) {
-    new SqlStatementWrapper()
+  public boolean deletar(int id) {
+    return new SqlStatementWrapper()
         .prepare()
 
         .with("delete from FLIGHT.AERONAVE")
