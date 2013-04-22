@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.jdbc;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -38,5 +39,7 @@ public interface SqlStatement {
   <T> T andGet();
 
   boolean andExecute() throws SQLException;
+
+  SqlStatement with(String syntax, Object object, File image);
 
 }

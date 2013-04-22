@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -42,16 +43,17 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
-  public void criar(Aeronave aeronave) throws SQLException {
+  public void criar(Aeronave aeronave, File image) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 
         .with("insert into FLIGHT.AERONAVE")
-        .with("(NOME, CODIGO, QTD_ASSENTO, MAPA)")
+        .with("(NOME, CODIGO, QTD_ASSENTO, IMAGEM, MAPA)")
         .with("values (")
         .with("?,", aeronave.getNome())
         .with("?,", aeronave.getCodigo())
         .with("?,", aeronave.getQtdDeAssento())
+        .with("?,", aeronave.getCode(), image)
         .with("?)", aeronave.isMapa())
 
         .andExecute();

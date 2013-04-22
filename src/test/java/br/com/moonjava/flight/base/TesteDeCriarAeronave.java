@@ -19,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -46,7 +47,7 @@ public class TesteDeCriarAeronave {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void criar_aeronave_com_sucesso() {
+  public void criar_aeronave_com_sucesso() throws SQLException {
     String nome = "Teste 1";
     String codigo = new GerarCodigo("AERONAVE").getCodigo();
     int qtdAssentos = 50;

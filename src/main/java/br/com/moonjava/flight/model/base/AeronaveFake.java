@@ -15,9 +15,12 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.io.File;
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
 
-import br.com.moonjava.flight.util.RequestParamWrapper;
+import br.com.moonjava.flight.util.RequestParam;
 
 /**
  * @version 1.0 Apr 10, 2012
@@ -25,11 +28,6 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 public class AeronaveFake implements Aeronave {
-
-  @Override
-  public List<Aeronave> consultar(RequestParamWrapper request) {
-    throw new UnsupportedOperationException();
-  }
 
   @Override
   public int getId() {
@@ -57,17 +55,27 @@ public class AeronaveFake implements Aeronave {
   }
 
   @Override
-  public void criar(Aeronave pojo) {
+  public void criar(Aeronave pojo, File image) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void deletar(int id) {
+  public boolean deletar(int id) {
     throw new UnsupportedOperationException();
   }
 
   @Override
   public void atualizar(Aeronave aeronave) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public InputStream getCode() throws SQLException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public List<Aeronave> consultar(RequestParam request) {
     throw new UnsupportedOperationException();
   }
 

@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -37,11 +39,13 @@ public interface Aeronave {
 
     boolean isMapa();
 
+    InputStream getCode();
+
   }
 
   interface Jdbc {
 
-    void criar(Aeronave aeronave) throws SQLException;
+    void criar(Aeronave aeronave, File image) throws SQLException;
 
     List<Aeronave> consultar(RequestParam request);
 
@@ -60,7 +64,9 @@ public interface Aeronave {
 
   boolean isMapa();
 
-  void criar(Aeronave pojo) throws SQLException;
+  InputStream getCode() throws SQLException;
+
+  void criar(Aeronave pojo, File image) throws SQLException;
 
   List<Aeronave> consultar(RequestParam request);
 

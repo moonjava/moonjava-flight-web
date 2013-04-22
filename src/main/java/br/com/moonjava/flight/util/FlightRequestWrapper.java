@@ -15,6 +15,9 @@
  */
 package br.com.moonjava.flight.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.servlet.ServletRequest;
 
 import org.joda.time.DateTime;
@@ -112,6 +115,17 @@ public class FlightRequestWrapper implements RequestParam {
 
   @Override
   public Boolean booleanParam(String param) {
+    String value = req.getParameter(param);
+    return Boolean.valueOf(value);
+  }
+
+  @Override
+  public InputStream inputStreamParam(String param) {
+    try {
+      return req.getInputStream();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return null;
   }
 

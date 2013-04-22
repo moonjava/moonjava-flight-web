@@ -15,8 +15,10 @@
  */
 package br.com.moonjava.flight.controller.base;
 
+import java.io.InputStream;
 import java.sql.ResultSet;
 
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.jdbc.ResultSetJdbcLoader;
 import br.com.moonjava.flight.jdbc.ResultSetJdbcWrapper;
 import br.com.moonjava.flight.model.base.Aeronave;
@@ -29,6 +31,7 @@ import br.com.moonjava.flight.model.base.AeronaveModel;
  */
 public class AeronaveLoader implements ResultSetJdbcLoader<Aeronave> {
 
+  private final FlightCore core = FlightCore.getInstance();
   private final String alias;
 
   public AeronaveLoader() {
@@ -74,6 +77,20 @@ public class AeronaveLoader implements ResultSetJdbcLoader<Aeronave> {
     @Override
     public boolean isMapa() {
       return rs.getBoolean("MAPA");
+    }
+
+    @Override
+    public InputStream getCode() {
+      // try {
+      // return rs.getBlob("IMAGEM").getBinaryStream();
+      // } catch (SQLException e) {
+      // try {
+      // throw new SQLException(e);
+      // } catch (SQLException e1) {
+      // core.logError("Error Blob", e);
+      // }
+      // }
+      return null;
     }
 
   }
