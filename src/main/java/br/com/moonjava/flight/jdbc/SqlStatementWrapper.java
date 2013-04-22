@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.jdbc;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,6 +46,7 @@ public class SqlStatementWrapper implements SqlStatement {
   private String syntax;
   private final List<Param<?>> params;
   private ResultSetJdbcLoader<?> loader;
+  private File image;
 
   public SqlStatementWrapper() {
     this.syntax = "";
@@ -75,6 +77,17 @@ public class SqlStatementWrapper implements SqlStatement {
   }
 
   @Override
+  public SqlStatement with(String syntax, Object object, File image) {
+    if (object != null) {
+      Param<?> param = Param.parseValue(object);
+      params.add(param);
+      with(syntax);
+      this.image = image;
+    }
+    return this;
+  }
+
+  @Override
   public SqlStatement load(ResultSetJdbcLoader<?> loader) {
     this.loader = loader;
     return this;
@@ -87,7 +100,7 @@ public class SqlStatementWrapper implements SqlStatement {
     try {
       stm = connection.prepareStatement(this.syntax);
 
-      SqlStatementExecute.setStmt(stm, params, value);
+      SqlStatementExecute.setStmt(stm, params, value, image);
       logger.info(stm.toString());
       stm.execute();
       ResultSet resultSet = stm.getResultSet();
@@ -116,7 +129,7 @@ public class SqlStatementWrapper implements SqlStatement {
     try {
       stm = connection.prepareStatement(this.syntax);
 
-      SqlStatementExecute.setStmt(stm, params, value);
+      SqlStatementExecute.setStmt(stm, params, value, image);
       logger.info(stm.toString());
       stm.execute();
       resultSet = stm.getResultSet();
@@ -145,7 +158,7 @@ public class SqlStatementWrapper implements SqlStatement {
     boolean res = false;
     try {
       stm = connection.prepareStatement(this.syntax);
-      SqlStatementExecute.setStmt(stm, params, value);
+      SqlStatementExecute.setStmt(stm, params, value, image);
       logger.info(stm.toString());
       stm.executeUpdate();
 

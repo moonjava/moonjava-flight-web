@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,12 +36,14 @@ public class AeronaveModel implements Aeronave {
   private int qtdDeAssento;
   private boolean mapa;
   private AeronaveDAO dao;
+  private InputStream code;
 
   public AeronaveModel(Builder builder) {
     this.codigo = builder.getCodigo();
     this.nome = builder.getNome();
     this.qtdDeAssento = builder.getQtdDeAssento();
     this.mapa = builder.isMapa();
+    this.code = builder.getCode();
   }
 
   public AeronaveModel() {
@@ -76,13 +80,18 @@ public class AeronaveModel implements Aeronave {
   }
 
   @Override
+  public InputStream getCode() throws SQLException {
+    return code;
+  }
+
+  @Override
   public String toString() {
     return nome;
   }
 
   @Override
-  public void criar(Aeronave pojo) throws SQLException {
-    dao.criar(pojo);
+  public void criar(Aeronave pojo, File image) throws SQLException {
+    dao.criar(pojo, image);
   }
 
   @Override

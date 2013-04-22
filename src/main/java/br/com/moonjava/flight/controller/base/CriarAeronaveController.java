@@ -15,129 +15,123 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 import java.io.File;
-import java.util.ResourceBundle;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileItemFactory;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Aeronave;
 import br.com.moonjava.flight.model.base.AeronaveModel;
-import br.com.moonjava.flight.util.CopyFile;
-import br.com.moonjava.flight.util.FlightFocusLostListener;
+import br.com.moonjava.flight.util.GerarCodigo;
+import br.com.moonjava.flight.util.JSONObject;
 import br.com.moonjava.flight.util.RequestParamWrapper;
-import br.com.moonjava.flight.view.aeronave.CriarAeronaveUI;
 
 /**
  * @version 1.0 Aug 29, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class CriarAeronaveController extends CriarAeronaveUI {
+@WebServlet(value = "/base/aeronave/create")
+public class CriarAeronaveController extends HttpServlet {
 
-  private RequestParamWrapper request;
-  private String fileName;
+  private static final long serialVersionUID = 1L;
+  private final FlightCore core = FlightCore.getInstance();
+  private String codigo;
 
-  public CriarAeronaveController(JPanel conteudo,
-                                 ResourceBundle bundle,
-                                 JButton atualizar,
-                                 JButton deletar) {
-    super(conteudo, bundle, atualizar, deletar);
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    RequestParamWrapper request = new RequestParamWrapper();
+    PrintWriter out = resp.getWriter();
+    File uploadedFile = null;
+    InputStream inputStream = null;
 
-    addFocusAssentoListener(new AssentoHandler());
-    addLoaderFileListener(new LoaderFileHandler());
-    addCadastrarListener(new CadastrarHandler());
-  }
+    // Busca parametros do request
+    boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 
-  private class AssentoHandler extends FlightFocusLostListener {
-    @Override
-    public void focusLost(FocusEvent e) {
-      try {
-        String assento = getParameters().stringParam("qtdDeAssento");
-        int numero = Integer.parseInt(assento);
-        if (numero <= 0) {
-          throw new NumberFormatException();
-        }
-        addImageAssentoValid();
-      } catch (NumberFormatException e2) {
-        addImageAssentoInvalid();
-      }
-    }
-  }
+    if (isMultipart) {
+      FileItemFactory factory = new DiskFileItemFactory();
 
-  private class LoaderFileHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      request = getParameters();
+      // Cria um handler de upload
+      ServletFileUpload upload = new ServletFileUpload(factory);
 
       try {
-        String qtdDeAssento = request.stringParam("qtdDeAssento");
-        int assento = Integer.parseInt(qtdDeAssento);
-        if (assento <= 0) {
-          throw new NumberFormatException();
-        }
+        // Parse de request
+        List<FileItem> items = upload.parseRequest(req);
+        Iterator<FileItem> iterator = items.iterator();
+        while (iterator.hasNext()) {
+          FileItem item = iterator.next();
+          if (!item.isFormField()) {
+            String fileName = item.getName();
+            uploadedFile = new File(fileName);
+            // Validando extensão de arquivos
+            boolean accept = accept(uploadedFile.getName());
 
-        // Adiciona ao request o assento como tipo int
-        request.set("qtdDeAssento", assento);
+            if (accept) {
+              inputStream = new FileInputStream(uploadedFile);
+              Aeronave aeronave = new AeronaveCreate(request, inputStream).createInstance();
+              try {
+                new AeronaveModel().criar(aeronave, uploadedFile);
+                req.getRequestDispatcher("/consulta-aeronave.jsp").forward(req, resp);
+              } catch (SQLException e) {
+                core.logError("SQL Error", e);
+              }
+            } else {
+              out.print("error");
+            }
 
-        // Carrega a imagem do mapa de assento (somente .jpg)
-        JFileChooser caixa = new JFileChooser();
-        caixa.setFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
-        int retorno = caixa.showOpenDialog(null);
-
-        if (retorno == JFileChooser.APPROVE_OPTION) {
-          File folder = new File("airplanes");
-
-          File file = caixa.getSelectedFile();
-          String absolutePath = file.getAbsolutePath();
-          fileName = file.getName();
-
-          // Cria uma pasta no computador caso nao exista
-          if (!folder.exists()) {
-            folder.mkdir();
-            folder.setWritable(true, true);
+            core.logInfo("Create file [" + fileName + "] in memory");
+            item.write(uploadedFile);
+          } else {
+            if (item.getFieldName().equals("qtdDeAssento"))
+              request.set(item.getFieldName(), Integer.parseInt(item.getString()));
+            else
+              request.set(item.getFieldName(), item.getString());
           }
-
-          // Adiciona o resultado ao request
-          boolean executed = CopyFile.copyfile(absolutePath, folder.getName() + "/" + fileName);
-          request.set("mapa", executed);
-
-          // Adiciona imagem OK a view
-          addImagem();
         }
 
-      } catch (NumberFormatException ex) {
-        // Falha no parseInt e/ou qtdDeAssento maior que zero
-        messageNumberException();
+        out.print(new JSONObject());
+      } catch (FileUploadException e) {
+        core.logError("File Upload error", e);
+        out.print("error");
+      } catch (Exception e) {
+        core.logError("Generic Error", e);
+        out.print("error");
       }
     }
   }
 
-  private class CadastrarHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      try {
-        String res = request.stringParam("nome") + ".jpg";
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    codigo = new GerarCodigo("AERONAVE").getCodigo();
+    req.setAttribute("codigo", codigo);
+    req.getRequestDispatcher("/aeronave-codigo.jsp").forward(req, resp);
+  }
 
-        // Executa se nome de arquivo for igual a aeronave
-        if (fileName.equals(res)) {
-          Aeronave pojo = new AeronaveCreate(request).createInstance();
-          Aeronave aeronave = new AeronaveModel();
-          aeronave.criar(pojo);
-          messageOK();
-        } else {
-          messageFailed();
-        }
+  public boolean accept(String name) {
+    return name.toLowerCase().endsWith(".jpg") ||
+        name.toLowerCase().endsWith(".png") ||
+        name.toLowerCase().endsWith(".jpeg");
+  }
 
-      } catch (Exception e2) {
-        addMessageFailed();
-      }
-    }
+  public String getCodigo() {
+    return codigo;
   }
 
 }

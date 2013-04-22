@@ -18,11 +18,10 @@
 <script type="text/javascript" src="js/less-1.3.0.min.js"></script>
 
 <script type="text/javascript" src="js/mootools-core-1.4.5-full-compat.js"></script>
-<script type="text/javascript" src="js/mootools-more.js"></script>
 
+<script type="text/javascript" src="js/FormValidate.js"></script>
 <script type="text/javascript" src="js/PageDelete.js"></script>
 <script type="text/javascript" src="js/PageSearch.js"></script>
-<script type="text/javascript" src="js/PageStatus.js"></script>
 
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -64,6 +63,7 @@
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.aeronave" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="consultar-aeronave.jsp"><fmt:message key="aeronave.consultar" /></a></li>
+              <li><a href="criar-aeronave.jsp"><fmt:message key="aeronave.cadastrar" /></a></li>
             </ul>
           </li>
           <li><img src="img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
