@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.util;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +79,11 @@ public class RequestParamWrapper implements RequestParam {
   @Override
   public Boolean booleanParam(String param) {
     return (Boolean) map.get(param);
+  }
+
+  @Override
+  public InputStream inputStreamParam(String param) {
+    return (InputStream) map.get(param);
   }
 
 }

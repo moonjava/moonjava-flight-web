@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.jdbc;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -35,7 +37,7 @@ class SqlStatementExecute {
 
   // Esta classe popula um statement de acordo com o tipo passado junto ao sql
   // Utilizado para a Fluent Interface
-  static PreparedStatement setStmt(PreparedStatement stm, List<Param<?>> params, int value) {
+  static PreparedStatement setStmt(PreparedStatement stm, List<Param<?>> params, int value, File image) {
 
     for (int i = 0; i < params.size(); i++) {
       Object object = params.get(i).getValue();
@@ -71,6 +73,10 @@ class SqlStatementExecute {
           Date date = ((DateTime) object).toDate();
           Timestamp timestamp = new Timestamp(date.getTime());
           stm.setTimestamp(++value, timestamp);
+        }
+
+        if (object instanceof InputStream) {
+          stm.setBinaryStream(++value, (InputStream) object, (int) (image.length()));
         }
 
       } catch (SQLException e) {

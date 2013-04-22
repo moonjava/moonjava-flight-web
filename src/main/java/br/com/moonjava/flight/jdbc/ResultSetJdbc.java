@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.jdbc;
 
+import java.sql.Blob;
 import java.sql.ResultSet;
 
 import org.joda.time.DateTime;
@@ -42,5 +43,7 @@ public interface ResultSetJdbc {
   LocalDate getLocalDate(String columnLabel);
 
   long getLong(String columnLabel);
+
+  Blob getBlob(String columnLabel);
 
 }

@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.util;
 
+import java.io.InputStream;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -40,5 +42,7 @@ public interface RequestParam {
   String stringParam(String param);
 
   Boolean booleanParam(String param);
+
+  InputStream inputStreamParam(String param);
 
 }

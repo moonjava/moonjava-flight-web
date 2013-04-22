@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.controller.base;
 
+import java.io.InputStream;
+
 import br.com.moonjava.flight.model.base.Aeronave;
 import br.com.moonjava.flight.model.base.AeronaveModel;
 import br.com.moonjava.flight.util.RequestParam;
@@ -27,9 +29,11 @@ import br.com.moonjava.flight.util.RequestParam;
 public class AeronaveCreate implements Aeronave.Builder {
 
   private final RequestParam request;
+  private final InputStream inputStream;
 
-  public AeronaveCreate(RequestParam request) {
+  public AeronaveCreate(RequestParam request, InputStream inputStream) {
     this.request = request;
+    this.inputStream = inputStream;
   }
 
   @Override
@@ -54,7 +58,12 @@ public class AeronaveCreate implements Aeronave.Builder {
 
   @Override
   public boolean isMapa() {
-    return request.booleanParam("mapa");
+    return true;
+  }
+
+  @Override
+  public InputStream getCode() {
+    return inputStream;
   }
 
 }

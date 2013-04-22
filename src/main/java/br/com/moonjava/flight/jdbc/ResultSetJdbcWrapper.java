@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.jdbc;
 
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,6 +105,15 @@ public class ResultSetJdbcWrapper implements ResultSetJdbc {
   public long getLong(String columnLabel) {
     try {
       return rs.getLong(alias + "." + columnLabel);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public Blob getBlob(String columnLabel) {
+    try {
+      return rs.getBlob(alias + "." + columnLabel);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

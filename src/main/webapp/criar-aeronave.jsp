@@ -26,50 +26,48 @@
 
           </div>
 
-          <form id="form" 
-                action="/moonjava-flight-web/base/aeronave/create" 
-                method="post" style="margin-top: 10px;" 
-                class="form-horizontal" 
-                enctype="multipart/form-data">
-                
+          <form id="form" action="/moonjava-flight-web/base/aeronave/create" method="POST" style="margin-top: 10px;" class="form-horizontal" enctype="multipart/form-data">
+
             <div id="content" class="control-group"></div>
             <div class="control-group">
               <label class="control-label" for="nome"><fmt:message key="criar.aeronave.titulo.nome" /></label>
               <div class="controls">
-                <input id="nome" name="nome" class="span3" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.nome" />">
+                <input id="nome" name="nome" class="span3 required" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.nome" />">
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="qtdDeAssento"><fmt:message key="criar.aeronave.titulo.assento" /></label>
               <div class="controls">
-                <input id="qtdDeAssento" class="span3" name="qtdDeAssento" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.assento" />">
+                <input id="qtdDeAssento" class="span3 required number" name="qtdDeAssento" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.assento" />">
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="imagem"><fmt:message key="criar.aeronave.botao.mapa" /></label>
               <div class="controls">
-                <input id="lefile" type="file"  accept="image/jpeg; image/gif; image/bmp; image/png" name="imagem" style="display: none;" maxlength="60" tabindex="1" />
+                <input id="lefile" type="file" accept="image/jpeg; image/gif; image/bmp; image/png" name="imagem" style="display: none;" maxlength="60" tabindex="1" />
                 <div class="input-append">
-                  <input id="photoCover" class="input-large span3" type="text">
-                  <a class="btn" onclick="$('input[id=lefile]').click();"><fmt:message key="criar.aeronave.botao.mapa" /></a>
+                  <input id="photoCover" class="input-large span3 required" type="text" placeholder="<fmt:message key="criar.aeronave.botao.mapa" />"> <a class="btn" onclick="$('input[id=lefile]').click();"><fmt:message key="criar.aeronave.botao.mapa" /></a>
                 </div>
               </div>
             </div>
             <div class="control-group">
               <div class="controls">
-                <button type="submit" class="btn btn-success"><fmt:message key="criar.aeronave.botao.cadastrar" /></button>
+                <button type="submit" class="btn btn-success">
+                  <fmt:message key="criar.aeronave.botao.cadastrar" />
+                </button>
               </div>
             </div>
           </form>
 
         </div>
-      </div>
+        </div>
 
       <c:import url="footer.jsp" />
     </div>
   </div>
 
 <script type="text/javascript">
+  var msgRequired = document.id('errorDeleteMsg').get('value');
   window.addEvent('domready', function() {
     $('input[id=lefile]').change(function() {
       $('#photoCover').val($(this).val());
@@ -80,6 +78,10 @@
       url : '/moonjava-flight-web/base/aeronave/create',
       update : document.id('content')
     }).send();
+    
+    new FormValidate({
+      required : msgRequired
+    });
   });
 </script>
 </body>
