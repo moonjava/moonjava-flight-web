@@ -75,12 +75,22 @@ public class AeronaveDAO implements Aeronave.Jdbc {
   }
 
   @Override
+  public Aeronave consultarPorId(int id) {
+    return query()
+
+        .with("where ID = ?", id)
+
+        .andGet();
+  }
+
+  @Override
   public void atualizar(Aeronave aeronave) throws SQLException {
+    String nome = aeronave.getNome().isEmpty() ? null : aeronave.getNome();
     new SqlStatementWrapper()
         .prepare()
 
         .with("update FLIGHT.AERONAVE AS AERONAVE set")
-        .with("AERONAVE.NOME = ?", aeronave.getNome())
+        .with("AERONAVE.NOME = ?", nome)
         .with("where AERONAVE.ID = ?", aeronave.getId())
 
         .andExecute();

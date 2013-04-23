@@ -23,45 +23,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Aeronave;
 import br.com.moonjava.flight.model.base.AeronaveModel;
 import br.com.moonjava.flight.util.FlightRequestWrapper;
 
 /**
- * @version 1.0 Aug 29, 2012
+ * @version 1.0 Apr 23, 2013
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-@WebServlet(value = "/base/aeronave/update")
-public class AtualizarAeronaveController extends HttpServlet {
+@WebServlet(value = "/base/aeronave/map")
+public class MapaAeronaveController extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
-  private final FlightCore core = FlightCore.getInstance();
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    FlightRequestWrapper request = new FlightRequestWrapper(req);
-    Aeronave aeronave = new AeronaveUpdate(request).createInstance();
-    try {
-      new AeronaveModel().atualizar(aeronave);
-      req.getRequestDispatcher("/consultar-aeronave.jsp").forward(req, resp);
-    } catch (Exception e) {
-      core.logError("SQL Error", e);
-      req.setAttribute("exception", e);
-      req.getRequestDispatcher("/erro.jsp").forward(req, resp);
-    }
-
-  }
-
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
-    Integer id = wrapper.intParam("id");
+    Aeronave aeronave = new AeronaveModel().consultarPorId(wrapper.intParam("id"));
 
-    Aeronave aeronave = new AeronaveModel().consultarPorId(id);
     req.setAttribute("aeronave", aeronave);
-    req.getRequestDispatcher("/aeronave-form-update.jsp").forward(req, resp);
+    req.getRequestDispatcher("/aeronave-map.jsp").forward(req, resp);
   }
 
 }

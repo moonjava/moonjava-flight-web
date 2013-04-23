@@ -24,10 +24,10 @@
             <input id="codigo" class="span2" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.codigo" />" />
             <input id="nome" class="span2" type="text" placeholder="<fmt:message key="criar.aeronave.titulo.nome" />" /> 
 
-            <button id="refresh" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="aeronave.limpar" /></button>
+            <a id="refresh" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="aeronave.limpar" /></a>
             <button id="update" class="btn btn-success"><i class="icon-ok-sign icon-white"></i> <fmt:message key="aeronave.atualizar" /></button>
             <button id="delete" class="btn btn-danger"><i class="icon-trash icon-white"></i> <fmt:message key="aeronave.deletar" /></button>
-            <button id="delete" class="btn btn-primary pull-right"><i class="icon-plane icon-white"></i> <fmt:message key="consultar.aeronave.botao.mapa" /></button>
+            <button id="map" class="btn btn-primary pull-right"><i class="icon-plane icon-white"></i> <fmt:message key="consultar.aeronave.botao.mapa" /></button>
 
             <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="consultar.joption.erro" />">
             <div id="notification"></div>
@@ -74,6 +74,19 @@
         nome : document.id('nome').get('value'),
         codigo : document.id('codigo').get('value')
       }
+    });
+    
+    new PageMap({
+      id : 'content', // Local onde sera renderizado
+      page : '/moonjava-flight-web/consultar-aeronave.jsp', // Pagina para refresh apos deletar item
+      mapUrl : '/moonjava-flight-web/base/aeronave/map', // url para deletar
+      deleteErrorMsg : msgDeleteError, // mensagem de erro
+    });
+    
+    new PageUpdate({
+      id : 'content', // Local onde sera renderizado
+      page : '/moonjava-flight-web/atualizar-aeronave.jsp', // Pagina para refresh apos deletar item
+      deleteErrorMsg : msgDeleteError, // mensagem de erro
     });
     
   });

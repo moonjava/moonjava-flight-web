@@ -11,20 +11,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/bootstrap/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="js/jquery.maskedinput-1.3.js"></script>
-<script type="text/javascript" src="js/less-1.3.0.min.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/jquery.maskedinput-1.3.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/less-1.3.0.min.js"></script>
 
-<script type="text/javascript" src="js/mootools-core-1.4.5-full-compat.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/mootools-core-1.4.5-full-compat.js"></script>
 
-<script type="text/javascript" src="js/FormValidate.js"></script>
-<script type="text/javascript" src="js/PageDelete.js"></script>
-<script type="text/javascript" src="js/PageSearch.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/FormValidate.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PageDelete.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PageSearch.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PageMap.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PageUpdate.js"></script>
 
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" type="text/css" href="/moonjava-flight-web/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/moonjava-flight-web/css/styles.css">
 
 <script type="text/javascript">
   function flightBundle(value) {
@@ -49,26 +51,26 @@
       <div class="container">
         <a class="brand">Flight :: Web</a>
         <ul class="nav nav-pills">
-          <li><a href="/">HOME</a></li>
+          <li><a href="/moonjava-flight-web/">HOME</a></li>
           <li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.checkin" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="/voo">Efetuar agora</a></li>
+              <li><a href="/moonjava-flight-web//voo">Efetuar agora</a></li>
             </ul>
           </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.voo" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Consultar</a></li>
+              <li><a href="/moonjava-flight-web/#">Consultar</a></li>
             </ul>
           </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.aeronave" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="consultar-aeronave.jsp"><fmt:message key="aeronave.consultar" /></a></li>
-              <li><a href="criar-aeronave.jsp"><fmt:message key="aeronave.cadastrar" /></a></li>
+              <li><a href="/moonjava-flight-web/consultar-aeronave.jsp"><fmt:message key="aeronave.consultar" /></a></li>
+              <li><a href="/moonjava-flight-web/criar-aeronave.jsp"><fmt:message key="aeronave.cadastrar" /></a></li>
             </ul>
           </li>
-          <li><img src="img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
-          <li><img src="img/us-united-states-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('en');"></li>
-          <li><img src="img/spain-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('es');"></li>
+          <li><img src="/moonjava-flight-web/img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
+          <li><img src="/moonjava-flight-web/img/us-united-states-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('en');"></li>
+          <li><img src="/moonjava-flight-web/img/spain-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('es');"></li>
         </ul>
         <form id="form-lang" style="display: none;">
           <select id="language" name="language">

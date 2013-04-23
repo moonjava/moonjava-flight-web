@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.controller.base;
 
+import java.io.InputStream;
+
 import br.com.moonjava.flight.model.base.Aeronave;
 import br.com.moonjava.flight.model.base.AeronaveModel;
 import br.com.moonjava.flight.util.RequestParam;
@@ -57,6 +59,11 @@ public class AeronaveUpdate implements Aeronave.Builder {
   @Override
   public boolean isMapa() {
     return false;
+  }
+
+  @Override
+  public InputStream getCode() {
+    return null;
   }
 
 }

@@ -10,6 +10,11 @@
 <html lang="${language}">
 <body>
 
+  <c:if test="${empty aeronaves}">
+    <h4><fmt:message key="cancelar.passagem.erro.solicitacao" /></h4>
+  </c:if>
+
+  <c:if test="${not empty aeronaves}">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -32,6 +37,7 @@
       </c:forEach>
     </tbody>
   </table>
+  </c:if>
 
 </body>
 
