@@ -21,7 +21,7 @@
           <div id="container" class="panel-hd">
             <h4><fmt:message key="menubar.aeronave" /></h4>
 
-            <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="consultar.joption.erro" />">
+            <input type="hidden" id="errorMsg" value="<fmt:message key="erro.campo.vazio" />">
             <div id="notification"></div>
 
           </div>
@@ -42,11 +42,11 @@
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="imagem"><fmt:message key="criar.aeronave.botao.mapa" /></label>
+              <label class="control-label" for="imagem"><fmt:message key="criar.aeronave.botao.mapa" />:</label>
               <div class="controls">
                 <input id="lefile" type="file" accept="image/jpeg; image/gif; image/bmp; image/png" name="imagem" style="display: none;" maxlength="60" tabindex="1" />
                 <div class="input-append">
-                  <input id="photoCover" class="input-large span3 required" type="text" placeholder="<fmt:message key="criar.aeronave.botao.mapa" />"> <a class="btn" onclick="$('input[id=lefile]').click();"><fmt:message key="criar.aeronave.botao.mapa" /></a>
+                  <input id="photoCover" class="input-large span3 required" type="text" placeholder="<fmt:message key="criar.aeronave.botao.mapa" />:"> <a class="btn" onclick="$('input[id=lefile]').click();"><fmt:message key="criar.aeronave.botao.mapa" /></a>
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@
   </div>
 
 <script type="text/javascript">
-  var msgRequired = document.id('errorDeleteMsg').get('value');
+  var msgRequired = document.id('errorMsg').get('value');
   window.addEvent('domready', function() {
     $('input[id=lefile]').change(function() {
       $('#photoCover').val($(this).val());

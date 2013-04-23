@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import br.com.moonjava.flight.util.RequestParamWrapper;
+import br.com.moonjava.flight.util.RequestParam;
 
 /**
  * @version 1.0 Oct 6, 2012
@@ -100,7 +100,7 @@ public class VooFake implements Voo {
   }
 
   @Override
-  public List<Voo> consultar(RequestParamWrapper request) {
+  public List<Voo> consultar(RequestParam request) {
     throw new UnsupportedOperationException();
   }
 
