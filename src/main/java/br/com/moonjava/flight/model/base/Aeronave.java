@@ -49,9 +49,12 @@ public interface Aeronave {
 
     List<Aeronave> consultar(RequestParam request);
 
+    Aeronave consultarPorId(int id);
+
     void atualizar(Aeronave aeronave) throws SQLException;
 
     boolean deletar(int id) throws SQLException;
+
   }
 
   int getId();
@@ -69,6 +72,8 @@ public interface Aeronave {
   void criar(Aeronave pojo, File image) throws SQLException;
 
   List<Aeronave> consultar(RequestParam request);
+
+  Aeronave consultarPorId(int id);
 
   boolean deletar(int id) throws SQLException;
 

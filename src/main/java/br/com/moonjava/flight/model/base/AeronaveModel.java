@@ -100,6 +100,11 @@ public class AeronaveModel implements Aeronave {
   }
 
   @Override
+  public Aeronave consultarPorId(int id) {
+    return dao.consultarPorId(id);
+  }
+
+  @Override
   public void atualizar(Aeronave pojo) throws SQLException {
     dao.atualizar(pojo);
   }

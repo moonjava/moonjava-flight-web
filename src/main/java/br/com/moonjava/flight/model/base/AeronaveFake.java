@@ -79,4 +79,9 @@ public class AeronaveFake implements Aeronave {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public Aeronave consultarPorId(int id) {
+    throw new UnsupportedOperationException();
+  }
+
 }
