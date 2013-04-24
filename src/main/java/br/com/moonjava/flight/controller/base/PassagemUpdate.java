@@ -19,8 +19,6 @@ import br.com.moonjava.flight.model.base.Passagem;
 import br.com.moonjava.flight.model.base.PassagemModel;
 import br.com.moonjava.flight.model.base.PessoaFisica;
 import br.com.moonjava.flight.model.base.Voo;
-import br.com.moonjava.flight.model.base.VooModel;
-import br.com.moonjava.flight.util.RequestParamWrapper;
 
 /**
  * @version 1.0 07/10/2012
@@ -29,22 +27,24 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  */
 public class PassagemUpdate implements Passagem.Builder {
 
-  private final RequestParamWrapper request;
+  private final Passagem passagem;
+  private final Voo voo;
 
-  public PassagemUpdate(RequestParamWrapper request) {
-    this.request = request;
+  public PassagemUpdate(Passagem passagem, Voo voo) {
+    this.passagem = passagem;
+    this.voo = voo;
   }
 
   @Override
   public Passagem createInstance() {
     PassagemModel impl = new PassagemModel(this);
-    impl.setId(request.intParam("id"));
+    impl.setId(passagem.getId());
     return impl;
   }
 
   @Override
   public Voo getVoo() {
-    return new VooModel().consultarPorId(request.intParam("voo"));
+    return voo;
   }
 
   @Override

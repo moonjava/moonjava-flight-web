@@ -24,6 +24,7 @@
 <script type="text/javascript" src="/moonjava-flight-web/js/PageSearch.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageMap.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageUpdate.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PagePassagem.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/moonjava-flight-web/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/moonjava-flight-web/css/styles.css">
@@ -52,9 +53,16 @@
         <a class="brand">Flight :: Web</a>
         <ul class="nav nav-pills">
           <li><a href="/moonjava-flight-web/">HOME</a></li>
+          <li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.passagem" /><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/moonjava-flight-web/vender-passagem.jsp"><fmt:message key="passagem.vender" /></a></li>
+              <li><a href="/moonjava-flight-web/cancelar-passagem.jsp"><fmt:message key="passagem.cancelar" /></a></li>
+              <li><a href="/moonjava-flight-web/transferir-passagem.jsp"><fmt:message key="passagem.transferir" /></a></li>
+            </ul>
+          </li>
           <li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.checkin" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="/moonjava-flight-web//voo">Efetuar agora</a></li>
+              <li><a href="/moonjava-flight-web/voo">Efetuar agora</a></li>
             </ul>
           </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.voo" /><b class="caret"></b></a>

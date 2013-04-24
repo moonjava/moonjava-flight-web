@@ -13,40 +13,57 @@
 <body>
 
   <c:if test="${empty voos}">
-    <h4><fmt:message key="cancelar.passagem.erro.solicitacao" /></h4>
+    <h4>
+      <fmt:message key="cancelar.passagem.erro.solicitacao" />
+    </h4>
   </c:if>
 
   <c:if test="${not empty voos}">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th></th>
-        <th><fmt:message key="consultar.voo.coluna.0" /></th>
-        <th><fmt:message key="consultar.voo.coluna.1" /></th>
-        <th><fmt:message key="consultar.voo.coluna.2" /></th>
-        <th><fmt:message key="consultar.voo.coluna.3" /></th>
-        <th><fmt:message key="consultar.voo.coluna.4" /></th>
-        <th><fmt:message key="consultar.voo.coluna.5" /></th>
-        <th><fmt:message key="consultar.voo.coluna.6" /></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    
-      <c:forEach var="voo" items="${voos}" varStatus="id">
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><input type="checkbox" class="del" value="${voo.id}" /></td>
-          <td>${voo.codigo}</td>
-          <td>${voo.origem}</td>
-          <td>${voo.destino}</td>
-          <td>${voo.escala}</td>
-          <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-          <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
-          <td>${voo.status.getName('${language}')}</td>
+          <th></th>
+          <th><fmt:message key="consultar.voo.coluna.0" /></th>
+          <th><fmt:message key="consultar.voo.coluna.1" /></th>
+          <th><fmt:message key="consultar.voo.coluna.2" /></th>
+          <th><fmt:message key="consultar.voo.coluna.3" /></th>
+          <th><fmt:message key="consultar.voo.coluna.4" /></th>
+          <th><fmt:message key="consultar.voo.coluna.5" /></th>
+          <th><fmt:message key="consultar.voo.coluna.6" /></th>
+          <th></th>
         </tr>
-      </c:forEach>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+
+        <c:forEach var="voo" items="${voos}" varStatus="id">
+          <tr>
+            <td><input type="checkbox" class="del" value="${voo.id}" /></td>
+            <td>${voo.codigo}</td>
+            <td>${voo.origem}</td>
+            <td>${voo.destino}</td>
+            <td>${voo.escala}</td>
+
+            <c:if test="${language == 'pt'}">
+              <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
+              <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
+              <td>${voo.status.getName('pt')}</td>
+            </c:if>
+
+            <c:if test="${language == 'en'}">
+              <td><joda:format value="${voo.dataDePartida}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
+              <td><joda:format value="${voo.dataDeChegada}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
+              <td>${voo.status.getName('en')}</td>
+            </c:if>
+
+            <c:if test="${language == 'es'}">
+              <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
+              <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
+              <td>${voo.status.getName('es')}</td>
+            </c:if>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
   </c:if>
 
 </body>
