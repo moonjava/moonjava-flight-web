@@ -57,6 +57,17 @@ public enum Status {
     return res;
   }
 
+  public String getName(String lang) {
+    String res = null;
+    if (lang.toUpperCase().equals("ES"))
+      res = es;
+    else if (lang.toUpperCase().equals("EN"))
+      res = us;
+    else
+      res = br;
+    return res;
+  }
+
   public static Status fromString(String nome) {
     if (nome != null) {
       for (Status status : Status.values()) {

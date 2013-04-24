@@ -53,7 +53,7 @@ public class FlightCore implements ServletContextListener {
 
   private void initLog() {
     log = LoggerFactory.getLogger(FlightCore.class);
-    File folder = new File("Log");
+    File folder = new File(System.getProperty("user.home") + File.separator + "Log");
     // Cria uma pasta no computador caso nao exista para salvar os LOGs diários
     // do sistema
     if (!folder.exists()) {

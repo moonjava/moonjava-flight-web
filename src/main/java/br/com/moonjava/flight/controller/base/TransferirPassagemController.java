@@ -15,127 +15,97 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JPanel;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Passagem;
 import br.com.moonjava.flight.model.base.PassagemModel;
 import br.com.moonjava.flight.model.base.Status;
 import br.com.moonjava.flight.model.base.Voo;
 import br.com.moonjava.flight.model.base.VooModel;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
+import br.com.moonjava.flight.util.JSONObject;
 import br.com.moonjava.flight.util.RequestParamWrapper;
-import br.com.moonjava.flight.view.passagem.TransferirPassagemUI;
 
 /**
  * @version 1.0 Aug 31, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class TransferirPassagemController extends TransferirPassagemUI {
+@WebServlet(value = "/base/passagem/transferir")
+public class TransferirPassagemController extends HttpServlet {
 
-  private List<Voo> list;
-  private Passagem passagem;
+  private static final long serialVersionUID = 1L;
+  private final FlightCore core = FlightCore.getInstance();
 
-  public TransferirPassagemController(JPanel conteudo, ResourceBundle bundle) {
-    super(conteudo, bundle);
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
+    RequestParamWrapper reqWrapper = new RequestParamWrapper();
 
-    addConsultarListener(new ConsultarHandler());
-    addTransferirListener(new TransferirHandler());
-    addItemTableSelectedListener(new ItemTableSelectedHandler());
-  }
+    PassagemModel passagem = new PassagemModel();
+    VooModel _voo = new VooModel();
 
-  public void setList(List<Voo> list) {
-    this.list = list;
-  }
+    Passagem pojo = passagem.consultarPorCodigoBilhete(wrapper.stringParam("bilhete").toUpperCase());
+    if (pojo != null) {
+      Voo voo = pojo.getVoo();
+      if (voo != null) {
+        Status status = Status.DISPONIVEL;
+        reqWrapper.set("status", status);
+        reqWrapper.set("assento", 0);
 
-  private class ItemTableSelectedHandler extends MouseAdapter {
-    @Override
-    public void mouseClicked(MouseEvent e) {
-      habilitarBotao();
+        List<Voo> voos = _voo.consultar(reqWrapper);
+        req.setAttribute("voos", voos);
+      }
+    } else {
+      req.setAttribute("voos", null);
     }
+    req.getRequestDispatcher("/passagem-table.jsp").forward(req, resp);
+
   }
 
-  private class ConsultarHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      VooModel vooModel = new VooModel();
-      PassagemModel passagemModel = new PassagemModel();
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    req.setCharacterEncoding("utf8");
+    resp.setContentType("application/json");
+    PrintWriter out = resp.getWriter();
+    JSONObject obj = new JSONObject();
 
-      RequestParamWrapper request = getParametersPassagem();
-      String codBilhete = request.stringParam("codBilhete");
+    FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
+    Integer id = wrapper.intParam("id");
+    String codigo = wrapper.stringParam("codigo");
 
-      passagem = passagemModel.consultarPorCodigoBilhete(codBilhete);
+    try {
+      VooModel voo = new VooModel();
+      PassagemModel passagem = new PassagemModel();
 
-      if (passagem == null) {
-        messagePassagemOff();
-        return;
+      Passagem _passagem = passagem.consultarPorCodigoBilhete(codigo);
+      Voo _voo = voo.consultarPorId(id);
+
+      Passagem pojo = new PassagemUpdate(_passagem, _voo).createInstance();
+      boolean updated = passagem.transferir(pojo);
+
+      if (updated) {
+        voo.incrementarAssento(_passagem.getVoo().getId());
+        voo.decrementarAssento(_voo.getId());
       }
 
-      String verifCancel = passagem.getVoo().getCodigo();
-
-      if (verifCancel == null) {
-        messagemPasJaCancelada();
-        refresh();
-        return;
-      }
-
-      Status status = Status.DISPONIVEL;
-      request.set("status", status);
-      request.set("assento", 0);
-
-      List<Voo> voos = vooModel.consultar(request);
-
-      setList(voos);
-      showList(voos);
-      addVooTable();
+      obj.put("success", "true");
+    } catch (SQLException e) {
+      obj.put("failure", "true");
+      obj.put("exception", e);
+      core.logError("SQL Aeronave has failed", e);
     }
-  }
-
-  private class TransferirHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      int[] rows = getTable().getSelectedRows();
-
-      if (rows.length == 1) {
-        Voo voo = list.get(rows[0]);
-
-        if (voo.getAssentoLivre() == 0) {
-          messageFailed();
-          return;
-
-        } else {
-          PassagemModel model = new PassagemModel();
-          RequestParamWrapper request = new RequestParamWrapper();
-
-          request.set("id", passagem.getId());
-          request.set("voo", voo.getId());
-
-          Passagem pojo = new PassagemUpdate(request).createInstance();
-          boolean updated = model.transferir(pojo);
-
-          if (updated) {
-            VooModel vooModel = new VooModel();
-            vooModel.incrementarAssento(passagem.getVoo().getId());
-            vooModel.decrementarAssento(voo.getId());
-            messageOK();
-            return;
-          } else {
-            messageDbOff();
-            return;
-          }
-
-        }
-      } else {
-        messageSelectFailed();
-        return;
-      }
-    }
+    out.print(obj);
   }
 
 }

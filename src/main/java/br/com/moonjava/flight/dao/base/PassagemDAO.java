@@ -140,4 +140,14 @@ public class PassagemDAO implements Passagem.Jdbc {
     return executed;
   }
 
+  @Override
+  public Passagem consultarPorId(int id) {
+    return query()
+
+        .with("where PASSAGEM.ID = ?", id)
+
+        .andGet();
+
+  }
+
 }

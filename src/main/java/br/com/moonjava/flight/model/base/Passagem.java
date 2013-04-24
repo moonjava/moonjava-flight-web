@@ -52,6 +52,8 @@ public interface Passagem {
 
     boolean cancelarPorVoo(Voo pojo) throws SQLException;
 
+    Passagem consultarPorId(int id);
+
   }
 
   int getId();
@@ -79,5 +81,7 @@ public interface Passagem {
   boolean cancelarPorVoo(Voo voo) throws SQLException;
 
   double getPreco(Passagem passagem);
+
+  Passagem consultarPorId(int id);
 
 }
