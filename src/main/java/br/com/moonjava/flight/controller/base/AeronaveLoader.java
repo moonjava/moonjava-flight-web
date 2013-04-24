@@ -16,6 +16,7 @@
 package br.com.moonjava.flight.controller.base;
 
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -83,7 +84,8 @@ public class AeronaveLoader implements ResultSetJdbcLoader<Aeronave> {
     @Override
     public InputStream getCode() {
       try {
-        return rs.getBlob("IMAGEM").getBinaryStream();
+        Blob blob = rs.getBlob("IMAGEM");
+        return blob != null ? blob.getBinaryStream() : null;
       } catch (SQLException e) {
         try {
           throw new SQLException(e);

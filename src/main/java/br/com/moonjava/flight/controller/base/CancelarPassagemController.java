@@ -15,212 +15,101 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
-import javax.swing.JPanel;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Passagem;
 import br.com.moonjava.flight.model.base.PassagemModel;
-import br.com.moonjava.flight.model.base.Reembolso;
-import br.com.moonjava.flight.model.base.ReembolsoModel;
-import br.com.moonjava.flight.model.base.VooModel;
-import br.com.moonjava.flight.util.CPF;
-import br.com.moonjava.flight.util.FlightFocusLostListener;
-import br.com.moonjava.flight.util.FocusTextField;
-import br.com.moonjava.flight.util.RequestParamWrapper;
-import br.com.moonjava.flight.util.VerifierString;
-import br.com.moonjava.flight.view.passagem.CancelarPassagemUI;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
 
 /**
  * @version 1.0 Aug 31, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class CancelarPassagemController extends CancelarPassagemUI {
+@WebServlet(value = "/base/passagem/cancelar")
+public class CancelarPassagemController extends HttpServlet {
 
-  private Passagem passagem;
+  private static final long serialVersionUID = 1L;
+  private final FlightCore core = FlightCore.getInstance();
 
-  public CancelarPassagemController(JPanel conteudo, ResourceBundle bundle) {
-    super(conteudo, bundle);
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    PassagemModel passagemModel = new PassagemModel();
 
-    addFocusListener(new FocusTextField());
-    addFocusBancoListener(new FocusBancoHandler());
-    addFocusAgenciaListener(new FocusAgenciaHandler());
-    addFocusContaListener(new FocusContaHandler());
-    addFocusCpfListener(new FocusCpfHandler());
-    addSolicitarCancelamentoListener(new SolicitarCancelamentoHandler());
-    addEfetuarCancelamentoListener(new EfetuarCancelamentoHandler());
-  }
+    FlightRequestWrapper request = new FlightRequestWrapper(req);
+    String codBilhete = request.stringParam("bilhete");
 
-  /*
-   * As InnerClasses de focus mudam os textos nos campos quando necessário 
-   * 
-   */
-  private class FocusBancoHandler extends FlightFocusLostListener {
-
-    @Override
-    public void focusLost(FocusEvent e) {
-      String banco = getParametersReebolso().stringParam("banco");
-      String defaultText = getDefaultTexts().stringParam("banco");
-
-      if (!banco.isEmpty() && !banco.equals(defaultText)) {
-
-        try {
-          int num = Integer.parseInt(banco);
-          if (num <= 0) {
-            throw new NumberFormatException();
-          }
-          removeImageBancoParseException();
-        } catch (NumberFormatException e2) {
-          addImageBancoParseException();
-        }
-
-      }
-    }
-  }
-
-  private class FocusAgenciaHandler extends FlightFocusLostListener {
-
-    @Override
-    public void focusLost(FocusEvent e) {
-      String agencia = getParametersReebolso().stringParam("agencia");
-      String defaultText = getDefaultTexts().stringParam("agencia");
-
-      if (!agencia.isEmpty() && !agencia.equals(defaultText)) {
-
-        try {
-          int num = Integer.parseInt(agencia);
-          if (num <= 0) {
-            throw new NumberFormatException();
-          }
-          removeImageAgenciaParseException();
-        } catch (NumberFormatException e2) {
-          addImageAgenciaParseException();
-        }
-
-      }
-    }
-  }
-
-  private class FocusContaHandler extends FlightFocusLostListener {
-
-    @Override
-    public void focusLost(FocusEvent e) {
-      String conta = getParametersReebolso().stringParam("conta");
-      String defaultText = getDefaultTexts().stringParam("conta");
-
-      if (!conta.isEmpty() && !conta.equals(defaultText)) {
-
-        try {
-          int num = Integer.parseInt(conta);
-          if (num <= 0) {
-            throw new NumberFormatException();
-          }
-          removeImageContaParseException();
-        } catch (NumberFormatException e2) {
-          addImageContaParseException();
-        }
-
-      }
-    }
-  }
-
-  private class FocusCpfHandler extends FlightFocusLostListener {
-
-    @Override
-    public void focusLost(FocusEvent e) {
-      String cpf = getParametersReebolso().stringParam("cpf");
-      if (!VerifierString.containsSpace(cpf)) {
-        try {
-          CPF.parse(cpf);
-          addImageCpfValido();
-        } catch (Exception e1) {
-          addImageCpfInvalido();
-        }
-      }
-    }
-  }
-
-  private class SolicitarCancelamentoHandler implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      PassagemModel passagemModel = new PassagemModel();
-
-      RequestParamWrapper request = getParametersPassagem();
-      String codBilhete = request.stringParam("codBilhete");
-
-      passagem = passagemModel.consultarPorCodigoBilhete(codBilhete);
-
-      if (passagem == null) {
-        messagePassagemOff();
-        return;
-      }
-
-      String verifCancel = passagem.getVoo().getCodigo();
-
-      if (verifCancel != null) {
+    Passagem passagem = passagemModel.consultarPorCodigoBilhete(codBilhete);
+    if (passagem != null) {
+      String voo = passagem.getVoo().getCodigo();
+      if (voo != null) {
         PassagemModel pasModel = new PassagemModel();
         double reembolso = pasModel.getPreco(passagem);
 
         if (reembolso > 0.0) {
-          setValor(reembolso, passagem.getId());
-          addCalcularPassagemButton();
+          req.setAttribute("valor", String.format("%.2f", reembolso));
         } else if (reembolso == 0.0) {
-          messageReebolsoZero();
+          req.setAttribute("response", "zero");
         } else {
-          messageVooRealizado();
+          req.setAttribute("response", "finished");
         }
       } else {
-        messagemPasJaCancelada();
+        req.setAttribute("response", "canceled");
       }
-
+    } else {
+      req.setAttribute("response", "notFound");
     }
+    req.getRequestDispatcher("/passagem-form-cancelar.jsp").forward(req, resp);
+
   }
 
-  private class EfetuarCancelamentoHandler implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      RequestParamWrapper request = getParametersReebolso();
-      // Caso o usuario adicione virgula, o sistema atribuirá ponto
-      // para cadastrar o dado no banco de dados
-      ReembolsoModel model = new ReembolsoModel();
-      PassagemModel modelPassagem = new PassagemModel();
-      String valor = request.stringParam("valor").replace(",", ".");
-      boolean status = false;
-
-      if (!valor.equals("0.0")) {
-        CPF _cpf = null;
-        try {
-          _cpf = CPF.parse(request.stringParam("cpf"));
-          request.set("passagem", passagem.getId());
-          request.set("banco", Integer.parseInt(request.stringParam("banco")));
-          request.set("agencia", Integer.parseInt(request.stringParam("agencia")));
-          request.set("conta", Integer.parseInt(request.stringParam("conta")));
-          request.set("valor", Double.parseDouble(valor));
-          request.set("cpf", _cpf.getDigito());
-          Reembolso reembolso = new ReembolsoCreate(request).createInstance();
-
-          status = model.criar(reembolso);
-        } catch (Exception e2) {
-          return;
-        }
-      }
-
-      status = modelPassagem.efetuarCancelamento(passagem);
-
-      if (status) {
-        new VooModel().incrementarAssento(passagem.getVoo().getId());
-        messageReembolso();
-        messageOK();
-      } else {
-        messageDbOff();
-      }
-    }
-  }
+  // private class EfetuarCancelamentoHandler implements ActionListener {
+  //
+  // @Override
+  // public void actionPerformed(ActionEvent e) {
+  // RequestParamWrapper request = getParametersReebolso();
+  // // Caso o usuario adicione virgula, o sistema atribuirá ponto
+  // // para cadastrar o dado no banco de dados
+  // ReembolsoModel model = new ReembolsoModel();
+  // PassagemModel modelPassagem = new PassagemModel();
+  // String valor = request.stringParam("valor").replace(",", ".");
+  // boolean status = false;
+  //
+  // if (!valor.equals("0.0")) {
+  // CPF _cpf = null;
+  // try {
+  // _cpf = CPF.parse(request.stringParam("cpf"));
+  // request.set("passagem", passagem.getId());
+  // request.set("banco", Integer.parseInt(request.stringParam("banco")));
+  // request.set("agencia", Integer.parseInt(request.stringParam("agencia")));
+  // request.set("conta", Integer.parseInt(request.stringParam("conta")));
+  // request.set("valor", Double.parseDouble(valor));
+  // request.set("cpf", _cpf.getDigito());
+  // Reembolso reembolso = new ReembolsoCreate(request).createInstance();
+  //
+  // status = model.criar(reembolso);
+  // } catch (Exception e2) {
+  // return;
+  // }
+  // }
+  //
+  // status = modelPassagem.efetuarCancelamento(passagem);
+  //
+  // if (status) {
+  // new VooModel().incrementarAssento(passagem.getVoo().getId());
+  // messageReembolso();
+  // messageOK();
+  // } else {
+  // messageDbOff();
+  // }
+  // }
+  // }
 
 }

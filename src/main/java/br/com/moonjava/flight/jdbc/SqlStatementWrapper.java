@@ -23,9 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.util.Param;
 
 /**
@@ -35,7 +33,7 @@ import br.com.moonjava.flight.util.Param;
  */
 public class SqlStatementWrapper implements SqlStatement {
 
-  private static final Logger logger = LoggerFactory.getLogger(SqlStatementWrapper.class);
+  private static final FlightCore core = FlightCore.getInstance();
 
   // Esta classe esta por trás de tudo q acontece na fluent Interface dos DAOs
   // Resumindo, Cria-se um statement de acordo com os parametros e executa o sql
@@ -101,7 +99,7 @@ public class SqlStatementWrapper implements SqlStatement {
       stm = connection.prepareStatement(this.syntax);
 
       SqlStatementExecute.setStmt(stm, params, value, image);
-      logger.info(stm.toString());
+      core.logInfo(stm.toString());
       stm.execute();
       ResultSet resultSet = stm.getResultSet();
 
@@ -130,7 +128,7 @@ public class SqlStatementWrapper implements SqlStatement {
       stm = connection.prepareStatement(this.syntax);
 
       SqlStatementExecute.setStmt(stm, params, value, image);
-      logger.info(stm.toString());
+      core.logInfo(stm.toString());
       stm.execute();
       resultSet = stm.getResultSet();
 
@@ -159,13 +157,13 @@ public class SqlStatementWrapper implements SqlStatement {
     try {
       stm = connection.prepareStatement(this.syntax);
       SqlStatementExecute.setStmt(stm, params, value, image);
-      logger.info(stm.toString());
+      core.logInfo(stm.toString());
       stm.executeUpdate();
 
       res = true;
       return res;
     } catch (SQLException e) {
-      logger.error(e.toString());
+      core.logError(e.toString(), e);
       throw new SQLException(e);
     } finally {
       stm.close();

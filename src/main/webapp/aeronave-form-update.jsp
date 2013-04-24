@@ -26,7 +26,7 @@
   <div class="control-group">
     <div class="controls">
       <button type="submit" class="btn btn-success">
-        <fmt:message key="criar.aeronave.botao.cadastrar" />
+        <fmt:message key="atualizar.aeronave.botao.atualizar" />
       </button>
     </div>
   </div>

@@ -117,4 +117,9 @@ public class PassagemModel implements Passagem {
     return dao.efetuarCancelamento(pojo);
   }
 
+  @Override
+  public Passagem consultarPorId(int id) {
+    return dao.consultarPorId(id);
+  }
+
 }
