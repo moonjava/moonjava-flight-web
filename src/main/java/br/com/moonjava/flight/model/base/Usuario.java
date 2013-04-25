@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.util.CPF;
@@ -43,7 +44,7 @@ public interface Usuario {
 
   interface Jdbc {
 
-    void criar(Usuario usuario);
+    void criar(Usuario usuario) throws SQLException;
 
     List<Usuario> consultar(RequestParam request);
 
@@ -51,9 +52,9 @@ public interface Usuario {
 
     Usuario consultarUsuario(RequestParam request);
 
-    boolean atualizar(Usuario usuario);
+    boolean atualizar(Usuario usuario) throws SQLException;
 
-    void deletar(int id);
+    void deletar(int id) throws SQLException;
 
   }
 
@@ -69,7 +70,7 @@ public interface Usuario {
 
   String getSenha();
 
-  void criar(Usuario pojo);
+  void criar(Usuario pojo) throws SQLException;
 
   List<Usuario> consultar(RequestParamWrapper request);
 
@@ -77,8 +78,8 @@ public interface Usuario {
 
   Usuario consultarUsuario(RequestParamWrapper request);
 
-  void atualizar(Usuario pojo);
+  void atualizar(Usuario pojo) throws SQLException;
 
-  void deletar(int id);
+  void deletar(int id) throws SQLException;
 
 }

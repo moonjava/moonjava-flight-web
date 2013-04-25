@@ -5,7 +5,7 @@
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="br.com.moonjava.flight.bundle.arquivo" />
+<fmt:setBundle basename="arquivo" />
 
 
 <!DOCTYPE html>
@@ -46,19 +46,19 @@
             <c:if test="${language == 'pt'}">
               <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
-              <td>${voo.status.getName('pt')}</td>
+              <td>${voo.status.setName('pt')}</td>
             </c:if>
 
             <c:if test="${language == 'en'}">
               <td><joda:format value="${voo.dataDePartida}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
-              <td>${voo.status.getName('en')}</td>
+              <td>${voo.status.setName('en')}</td>
             </c:if>
 
             <c:if test="${language == 'es'}">
               <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
-              <td>${voo.status.getName('es')}</td>
+              <td>${voo.status.setName('es')}</td>
             </c:if>
           </tr>
         </c:forEach>

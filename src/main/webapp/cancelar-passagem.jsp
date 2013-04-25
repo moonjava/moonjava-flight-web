@@ -4,7 +4,7 @@
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="br.com.moonjava.flight.bundle.arquivo" />
+<fmt:setBundle basename="arquivo" />
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -26,7 +26,7 @@
             <input id="bilhete" class="span2" type="text" placeholder="<fmt:message key="transferir.passagem.titulo.filtroBilhete" />" /> 
             <button id="consultar" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="transferir.passagem.consultar" /></button>
 
-            <input type="hidden" id="errorMsg" value="<fmt:message key="atualizar.voo.joption.err" />">
+            <input type="hidden" id="errorMsg" value="<fmt:message key="erro.campo.vazio" />">
             <div id="notification"></div>
 
           </div>
@@ -43,7 +43,6 @@
   </div>
 
 <script type="text/javascript">
-  var msgError = document.id('errorMsg').get('value');
   window.addEvent('domready', function() {
     
     document.id('consultar').addEvent('click', function() {
@@ -55,13 +54,6 @@
         },
         update : 'content'
       }).send();
-    });
-    
-    new PagePassagem({
-      id : 'content',
-      page : '/moonjava-flight-web/cancelar-passagem.jsp',
-      passagemUrl : '/moonjava-flight-web/base/passagem/cancelar',
-      deleteErrorMsg : msgError,
     });
 
   });

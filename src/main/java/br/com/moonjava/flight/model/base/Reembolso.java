@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
+
 import br.com.moonjava.flight.util.CPF;
 
 /**
@@ -43,7 +45,7 @@ public interface Reembolso {
 
   interface Jdbc {
 
-    boolean criar(Reembolso reembolso);
+    boolean criar(Reembolso reembolso) throws SQLException;
 
   }
 
@@ -63,5 +65,6 @@ public interface Reembolso {
 
   double getValor();
 
-  boolean criar(Reembolso reembolso);
+  boolean criar(Reembolso reembolso) throws SQLException;
+
 }

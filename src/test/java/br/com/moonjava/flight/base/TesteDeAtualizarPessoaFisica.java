@@ -19,11 +19,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
+
 import org.joda.time.LocalDate;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.PessoaFisicaUpdate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.PessoaFisicaDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -38,7 +41,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeAtualizarPessoaFisica {
+public class TesteDeAtualizarPessoaFisica extends FlightLoaderTest {
 
   @BeforeClass
   public void limpaTabela() {
@@ -46,7 +49,7 @@ public class TesteDeAtualizarPessoaFisica {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void atualizar_pessoa_fisica_com_sucesso() {
+  public void atualizar_pessoa_fisica_com_sucesso() throws SQLException {
     PessoaFisicaDAO dao = new PessoaFisicaDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 
@@ -90,7 +93,8 @@ public class TesteDeAtualizarPessoaFisica {
     assertThat(res.getEmail(), equalTo(novoEmail));
   }
 
-  public void atualizar_pf_sem_sucesso_por_cpf_repetido() {
+  @Test(expectedExceptions = { SQLException.class })
+  public void atualizar_pf_sem_sucesso_por_cpf_repetido() throws SQLException {
     PessoaFisicaDAO dao = new PessoaFisicaDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 
@@ -149,7 +153,7 @@ public class TesteDeAtualizarPessoaFisica {
   }
 
   @Test(expectedExceptions = { CPFInvalidException.class })
-  public void atualizar_pf_sem_sucesso_por_cpf_invalido() {
+  public void atualizar_pf_sem_sucesso_por_cpf_invalido() throws SQLException {
     PessoaFisicaDAO dao = new PessoaFisicaDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 

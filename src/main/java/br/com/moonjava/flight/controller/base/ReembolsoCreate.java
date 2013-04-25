@@ -58,8 +58,8 @@ public class ReembolsoCreate implements Reembolso.Builder {
 
   @Override
   public CPF getCpf() {
-    Long value = request.longParam("cpf");
-    return CPF.valueOf(value);
+    String value = request.stringParam("cpf");
+    return CPF.parse(value);
   }
 
   @Override
@@ -79,6 +79,7 @@ public class ReembolsoCreate implements Reembolso.Builder {
 
   @Override
   public double getValor() {
-    return request.doubleParam("valor");
+    return Double.parseDouble(request.stringParam("valor").replace(",", "."));
   }
+
 }

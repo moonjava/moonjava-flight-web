@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
+
 import org.joda.time.LocalDate;
 
 import br.com.moonjava.flight.util.CPF;
@@ -50,11 +52,11 @@ public interface PessoaFisica {
 
   interface Jdbc {
 
-    boolean criar(PessoaFisica pessoaFisica);
+    boolean criar(PessoaFisica pessoaFisica) throws SQLException;
 
     PessoaFisica consultarPorCpf(CPF cpf);
 
-    boolean atualizar(PessoaFisica pessoaFisica);
+    boolean atualizar(PessoaFisica pessoaFisica) throws SQLException;
 
   }
 
@@ -78,10 +80,10 @@ public interface PessoaFisica {
 
   String getEmail();
 
-  boolean criar(PessoaFisica pojo);
+  boolean criar(PessoaFisica pojo) throws SQLException;
 
   PessoaFisica consultarPorCPF(CPF cpf);
 
-  void atualizar(PessoaFisica pojo);
+  void atualizar(PessoaFisica pojo) throws SQLException;
 
 }

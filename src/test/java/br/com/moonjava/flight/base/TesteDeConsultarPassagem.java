@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.PassagemDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -33,7 +34,7 @@ import br.com.moonjava.flight.model.base.Passagem;
  * 
  */
 @Test
-public class TesteDeConsultarPassagem {
+public class TesteDeConsultarPassagem extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {

@@ -5,11 +5,36 @@ var FormValidate = new Class({
   initialize : function(options) {
     this.setOptions(options);
     
-    var el1 = $$('.required');
-    Array.each(el1, function(key) {
+    var el2 = $$('.required');
+    Array.each(el2, function(key) {
       key.addEvent('blur', function(e) {
 
         if (e.target.value == '') {
+          if (document.id(e.target.id + 'sub') == null) {
+            var el = new Element('div', {
+              'id' : e.target.id + 'sub',
+              'class' : 'alert alert-error fade in',
+              'text' : e.target.placeholder + ' ' + options.required
+            });
+            el.inject('notification');
+
+            el = new Element('button', {
+              'type' : 'button',
+              'class' : 'close',
+              'text' : '×',
+              'data-dismiss' : 'alert'
+            });
+            el.inject(e.target.id + 'sub');
+          }
+        }
+      });
+    });
+    
+    var el2 = $$('.cpf');
+    Array.each(el2, function(key) {
+      key.addEvent('blur', function(e) {
+
+        if (e.target.value == '___.___.___-__') {
           if (document.id(e.target.id + 'sub') == null) {
             var el = new Element('div', {
               'id' : e.target.id + 'sub',

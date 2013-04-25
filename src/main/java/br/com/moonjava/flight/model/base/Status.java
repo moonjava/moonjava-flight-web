@@ -57,7 +57,7 @@ public enum Status {
     return res;
   }
 
-  public String getName(String lang) {
+  public String setName(String lang) {
     String res = null;
     if (lang.toUpperCase().equals("ES"))
       res = es;

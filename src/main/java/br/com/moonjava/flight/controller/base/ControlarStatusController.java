@@ -17,6 +17,7 @@ package br.com.moonjava.flight.controller.base;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -84,7 +85,12 @@ public class ControlarStatusController implements ActionListener {
         int[] rows = tabela.getSelectedRows();
         for (int i = 0; i < rows.length; i++) {
           Voo pojo = list.get(rows[i]);
-          vooModel.controlarStatus(pojo.getId(), Status.fromString(status));
+          try {
+            vooModel.controlarStatus(pojo.getId(), Status.fromString(status));
+          } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
         }
 
         JOptionPane.showMessageDialog(null, bundle.getString("status.voo.joption.ok"));

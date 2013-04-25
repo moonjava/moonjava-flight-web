@@ -16,6 +16,7 @@
 package br.com.moonjava.flight.controller.base;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Passagem;
 import br.com.moonjava.flight.model.base.PassagemModel;
+import br.com.moonjava.flight.model.base.Reembolso;
+import br.com.moonjava.flight.model.base.ReembolsoModel;
+import br.com.moonjava.flight.model.base.VooModel;
 import br.com.moonjava.flight.util.FlightRequestWrapper;
 
 /**
@@ -55,7 +59,9 @@ public class CancelarPassagemController extends HttpServlet {
 
         if (reembolso > 0.0) {
           req.setAttribute("valor", String.format("%.2f", reembolso));
+          req.setAttribute("passagem", passagem);
         } else if (reembolso == 0.0) {
+          req.setAttribute("passagem", passagem);
           req.setAttribute("response", "zero");
         } else {
           req.setAttribute("response", "finished");
@@ -67,49 +73,36 @@ public class CancelarPassagemController extends HttpServlet {
       req.setAttribute("response", "notFound");
     }
     req.getRequestDispatcher("/passagem-form-cancelar.jsp").forward(req, resp);
-
   }
 
-  // private class EfetuarCancelamentoHandler implements ActionListener {
-  //
-  // @Override
-  // public void actionPerformed(ActionEvent e) {
-  // RequestParamWrapper request = getParametersReebolso();
-  // // Caso o usuario adicione virgula, o sistema atribuirá ponto
-  // // para cadastrar o dado no banco de dados
-  // ReembolsoModel model = new ReembolsoModel();
-  // PassagemModel modelPassagem = new PassagemModel();
-  // String valor = request.stringParam("valor").replace(",", ".");
-  // boolean status = false;
-  //
-  // if (!valor.equals("0.0")) {
-  // CPF _cpf = null;
-  // try {
-  // _cpf = CPF.parse(request.stringParam("cpf"));
-  // request.set("passagem", passagem.getId());
-  // request.set("banco", Integer.parseInt(request.stringParam("banco")));
-  // request.set("agencia", Integer.parseInt(request.stringParam("agencia")));
-  // request.set("conta", Integer.parseInt(request.stringParam("conta")));
-  // request.set("valor", Double.parseDouble(valor));
-  // request.set("cpf", _cpf.getDigito());
-  // Reembolso reembolso = new ReembolsoCreate(request).createInstance();
-  //
-  // status = model.criar(reembolso);
-  // } catch (Exception e2) {
-  // return;
-  // }
-  // }
-  //
-  // status = modelPassagem.efetuarCancelamento(passagem);
-  //
-  // if (status) {
-  // new VooModel().incrementarAssento(passagem.getVoo().getId());
-  // messageReembolso();
-  // messageOK();
-  // } else {
-  // messageDbOff();
-  // }
-  // }
-  // }
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    ReembolsoModel model = new ReembolsoModel();
+    PassagemModel modelPassagem = new PassagemModel();
+    FlightRequestWrapper request = new FlightRequestWrapper(req);
+
+    if (request.stringParam("valor") != null) {
+      Reembolso reembolso = new ReembolsoCreate(request).createInstance();
+      try {
+        model.criar(reembolso);
+      } catch (SQLException e) {
+        core.logError("Generic Error", e);
+        req.setAttribute("exception", "Error on server " + e);
+        req.getRequestDispatcher("/erro.jsp").forward(req, resp);
+      }
+    }
+
+    try {
+      Passagem _passagem = modelPassagem.consultarPorId(request.intParam("passagem"));
+      modelPassagem.efetuarCancelamento(_passagem);
+      new VooModel().incrementarAssento(_passagem.getVoo().getId());
+      req.getRequestDispatcher("/cancelar-passagem.jsp").forward(req, resp);
+
+    } catch (SQLException e) {
+      core.logError("Generic Error", e);
+      req.setAttribute("exception", "Error on server " + e);
+      req.getRequestDispatcher("/erro.jsp").forward(req, resp);
+    }
+  }
 
 }

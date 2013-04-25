@@ -69,4 +69,9 @@ public class PassagemFake implements Passagem {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public Passagem consultarPorId(int id) {
+    throw new UnsupportedOperationException();
+  }
+
 }

@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
+
 import br.com.moonjava.flight.controller.base.PessoaFisicaLoader;
 import br.com.moonjava.flight.jdbc.SqlStatement;
 import br.com.moonjava.flight.jdbc.SqlStatementWrapper;
@@ -39,7 +41,7 @@ public class PessoaFisicaDAO implements PessoaFisica.Jdbc {
   }
 
   @Override
-  public boolean criar(PessoaFisica pessoaFisica) {
+  public boolean criar(PessoaFisica pessoaFisica) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -73,7 +75,7 @@ public class PessoaFisicaDAO implements PessoaFisica.Jdbc {
   }
 
   @Override
-  public boolean atualizar(PessoaFisica pessoaFisica) {
+  public boolean atualizar(PessoaFisica pessoaFisica) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 

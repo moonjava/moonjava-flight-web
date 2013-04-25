@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
+
 import br.com.moonjava.flight.jdbc.SqlStatementWrapper;
 import br.com.moonjava.flight.model.base.Passagem;
 import br.com.moonjava.flight.model.base.Reembolso;
@@ -27,7 +29,7 @@ import br.com.moonjava.flight.model.base.Reembolso;
 public class ReembolsoDAO implements Reembolso.Jdbc {
 
   @Override
-  public boolean criar(Reembolso reembolso) {
+  public boolean criar(Reembolso reembolso) throws SQLException {
     Passagem passagem = reembolso.getPassagem();
     boolean executed = new SqlStatementWrapper()
         .prepare()

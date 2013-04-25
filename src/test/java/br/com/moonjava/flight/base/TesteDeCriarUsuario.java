@@ -19,12 +19,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.UsuarioCreate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.UsuarioDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -40,7 +42,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeCriarUsuario {
+public class TesteDeCriarUsuario extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -48,7 +50,7 @@ public class TesteDeCriarUsuario {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void criar_usuario_com_sucesso() {
+  public void criar_usuario_com_sucesso() throws SQLException {
     UsuarioDAO dao = new UsuarioDAO();
     RequestParamWrapper request = new RequestParamWrapper();
     RequestParamWrapper request2 = new RequestParamWrapper();

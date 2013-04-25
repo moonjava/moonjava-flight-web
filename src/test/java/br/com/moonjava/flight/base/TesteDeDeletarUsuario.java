@@ -19,11 +19,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.UsuarioDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -36,7 +38,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeDeletarUsuario {
+public class TesteDeDeletarUsuario extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -44,7 +46,7 @@ public class TesteDeDeletarUsuario {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void teste_deletar_usuario_por_id() {
+  public void teste_deletar_usuario_por_id() throws SQLException {
     UsuarioDAO dao = new UsuarioDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 

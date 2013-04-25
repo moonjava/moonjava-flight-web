@@ -19,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -26,6 +27,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.VooCreate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.AeronaveDAO;
 import br.com.moonjava.flight.dao.base.VooDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
@@ -42,7 +44,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeCriarVoo {
+public class TesteDeCriarVoo extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -50,7 +52,7 @@ public class TesteDeCriarVoo {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void criar_voo_com_sucesso() {
+  public void criar_voo_com_sucesso() throws SQLException {
     VooDAO vooDAO = new VooDAO();
     AeronaveDAO aeronaveDAO = new AeronaveDAO();
     RequestParamWrapper request = new RequestParamWrapper();
