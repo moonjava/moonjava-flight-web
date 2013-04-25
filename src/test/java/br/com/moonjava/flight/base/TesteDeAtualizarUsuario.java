@@ -19,10 +19,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.UsuarioUpdate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.UsuarioDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -38,7 +41,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeAtualizarUsuario {
+public class TesteDeAtualizarUsuario extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -46,7 +49,7 @@ public class TesteDeAtualizarUsuario {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void atualizar_usuario_com_sucesso() {
+  public void atualizar_usuario_com_sucesso() throws SQLException {
     UsuarioDAO dao = new UsuarioDAO();
     RequestParamWrapper request = new RequestParamWrapper();
     EncryptPassword encrypt = new EncryptPassword();
@@ -86,7 +89,8 @@ public class TesteDeAtualizarUsuario {
     assertThat(res.getSenha(), equalTo(novaSenha));
   }
 
-  public void atualizar_usuario_sem_sucesso_por_login_e_senha_invalido() {
+  @Test(expectedExceptions = { SQLException.class })
+  public void atualizar_usuario_sem_sucesso_por_login_e_senha_invalido() throws SQLException {
     UsuarioDAO dao = new UsuarioDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 

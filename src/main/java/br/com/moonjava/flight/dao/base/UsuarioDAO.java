@@ -1,5 +1,6 @@
 package br.com.moonjava.flight.dao.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.controller.base.UsuarioLoader;
@@ -47,7 +48,7 @@ public class UsuarioDAO implements Usuario.Jdbc {
   }
 
   @Override
-  public void criar(Usuario usuario) {
+  public void criar(Usuario usuario) throws SQLException {
     PessoaFisica pessoaFisica = usuario.getPessoaFisica();
     new SqlStatementWrapper()
         .prepare()
@@ -105,7 +106,7 @@ public class UsuarioDAO implements Usuario.Jdbc {
   }
 
   @Override
-  public boolean atualizar(Usuario usuario) {
+  public boolean atualizar(Usuario usuario) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()
 
@@ -123,7 +124,7 @@ public class UsuarioDAO implements Usuario.Jdbc {
   }
 
   @Override
-  public void deletar(int id) {
+  public void deletar(int id) throws SQLException {
     new SqlStatementWrapper()
         .prepare()
 

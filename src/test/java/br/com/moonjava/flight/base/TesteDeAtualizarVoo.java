@@ -19,11 +19,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
+
 import org.joda.time.DateTime;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.VooUpdate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.VooDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -36,7 +39,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeAtualizarVoo {
+public class TesteDeAtualizarVoo extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -44,7 +47,7 @@ public class TesteDeAtualizarVoo {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void atualizar_voo_com_sucesso() {
+  public void atualizar_voo_com_sucesso() throws SQLException {
     VooDAO dao = new VooDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 
@@ -76,7 +79,7 @@ public class TesteDeAtualizarVoo {
     assertThat(res.getObservacao(), equalTo(observacao));
   }
 
-  public void atualizar_voo_sem_sucesso_por_datas_incorretas() {
+  public void atualizar_voo_sem_sucesso_por_datas_incorretas() throws SQLException {
     VooDAO dao = new VooDAO();
     RequestParamWrapper request = new RequestParamWrapper();
 

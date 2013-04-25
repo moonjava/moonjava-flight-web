@@ -53,6 +53,17 @@ public enum Tipo {
     return res;
   }
 
+  public String setName(String lang) {
+    String res = null;
+    if (lang.toUpperCase().equals("ES"))
+      res = es;
+    else if (lang.toUpperCase().equals("EN"))
+      res = us;
+    else
+      res = br;
+    return res;
+  }
+
   public static Tipo fromString(String nome) {
     if (nome != null) {
       for (Tipo tipo : Tipo.values()) {

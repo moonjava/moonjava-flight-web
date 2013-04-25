@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
+
 import org.joda.time.LocalDate;
 
 import br.com.moonjava.flight.dao.base.PessoaFisicaDAO;
@@ -110,12 +112,12 @@ public class PessoaFisicaModel implements PessoaFisica {
   }
 
   @Override
-  public boolean criar(PessoaFisica pojo) {
+  public boolean criar(PessoaFisica pojo) throws SQLException {
     return dao.criar(pojo);
   }
 
   @Override
-  public void atualizar(PessoaFisica pojo) {
+  public void atualizar(PessoaFisica pojo) throws SQLException {
     dao.atualizar(pojo);
   }
 

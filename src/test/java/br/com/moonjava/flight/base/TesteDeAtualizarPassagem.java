@@ -19,15 +19,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.SQLException;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.PassagemUpdate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.PassagemDAO;
+import br.com.moonjava.flight.dao.base.VooDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
 import br.com.moonjava.flight.model.base.Passagem;
-import br.com.moonjava.flight.util.RequestParamWrapper;
+import br.com.moonjava.flight.model.base.Voo;
 
 /**
  * @version 1.0 07/10/2012
@@ -36,7 +40,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  */
 
 @Test
-public class TesteDeAtualizarPassagem {
+public class TesteDeAtualizarPassagem extends FlightLoaderTest {
 
   @BeforeClass
   public void limparTabela() {
@@ -44,11 +48,9 @@ public class TesteDeAtualizarPassagem {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void atualizar_passagem() {
+  public void atualizar_passagem() throws SQLException {
     PassagemDAO dao = new PassagemDAO();
-    RequestParamWrapper request = new RequestParamWrapper();
 
-    int id = 1;
     int voo = 3;
     int pf = 1;
     String codBilhete = "P1000";
@@ -59,10 +61,9 @@ public class TesteDeAtualizarPassagem {
     assertThat(antes.getCodigoBilhete(), equalTo(codBilhete));
 
     int novoVoo = 2;
-    request.set("id", id);
-    request.set("voo", novoVoo);
+    Voo _voo = new VooDAO().consultarPorId(novoVoo);
 
-    Passagem passagem = new PassagemUpdate(request).createInstance();
+    Passagem passagem = new PassagemUpdate(antes, _voo).createInstance();
     dao.transferir(passagem);
 
     Passagem res = dao.consultarPorCodigoBilhete(codBilhete);

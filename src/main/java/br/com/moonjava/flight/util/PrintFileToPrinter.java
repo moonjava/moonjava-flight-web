@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.moonjava.flight.view.passagem;
+package br.com.moonjava.flight.util;
 
 /**
  * @version 1.0 Sep 7, 2012

@@ -15,6 +15,8 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
+
 import br.com.moonjava.flight.dao.base.ReembolsoDAO;
 import br.com.moonjava.flight.util.CPF;
 
@@ -94,7 +96,7 @@ public class ReembolsoModel implements Reembolso {
   }
 
   @Override
-  public boolean criar(Reembolso reembolso) {
+  public boolean criar(Reembolso reembolso) throws SQLException {
     return dao.criar(reembolso);
   }
 

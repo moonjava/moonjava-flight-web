@@ -21,12 +21,14 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.PassagemCreate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.PassagemDAO;
 import br.com.moonjava.flight.dao.base.VooDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
@@ -42,7 +44,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeVenderPassagem {
+public class TesteDeVenderPassagem extends FlightLoaderTest {
 
   @BeforeClass
   public void beforeClass() {
@@ -50,7 +52,7 @@ public class TesteDeVenderPassagem {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void vender_passagem_com_sucesso() {
+  public void vender_passagem_com_sucesso() throws SQLException {
     int vooId = 1;
     String codigo = new GerarCodigo("PASSAGEM").getCodigo();
     int pessoaFisicaId = 1;

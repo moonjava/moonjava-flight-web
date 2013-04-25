@@ -19,6 +19,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,6 +29,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import br.com.moonjava.flight.controller.base.AeronaveCreate;
+import br.com.moonjava.flight.core.FlightLoaderTest;
 import br.com.moonjava.flight.dao.base.AeronaveDAO;
 import br.com.moonjava.flight.jdbc.DbUnit;
 import br.com.moonjava.flight.jdbc.DbUnitFlightXml;
@@ -39,7 +43,7 @@ import br.com.moonjava.flight.util.RequestParamWrapper;
  * 
  */
 @Test
-public class TesteDeCriarAeronave {
+public class TesteDeCriarAeronave extends FlightLoaderTest {
 
   @BeforeClass
   public void beforeClass() {
@@ -47,7 +51,7 @@ public class TesteDeCriarAeronave {
     dbUnit.load(new DbUnitFlightXml());
   }
 
-  public void criar_aeronave_com_sucesso() throws SQLException {
+  public void criar_aeronave_com_sucesso() throws SQLException, FileNotFoundException {
     String nome = "Teste 1";
     String codigo = new GerarCodigo("AERONAVE").getCodigo();
     int qtdAssentos = 50;
@@ -64,9 +68,9 @@ public class TesteDeCriarAeronave {
     request.set("qtdDeAssento", qtdAssentos);
     request.set("mapa", mapa);
 
-    Aeronave aeronave = new AeronaveCreate(request).createInstance();
-    dao.criar(aeronave);
-
+    File f = new File("src/test/resources/search.png");
+    Aeronave aeronave = new AeronaveCreate(request, new FileInputStream(f)).createInstance();
+    dao.criar(aeronave, f);
     request = new RequestParamWrapper();
 
     List<Aeronave> res = dao.consultar(request);

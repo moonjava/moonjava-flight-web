@@ -40,10 +40,6 @@ public class PessoaFisicaCreate implements PessoaFisica.Builder {
     return new PessoaFisicaModel(this);
   }
 
-  public int getId() {
-    return request.intParam("id");
-  }
-
   @Override
   public String getNome() {
     return request.stringParam("nome");
@@ -61,8 +57,7 @@ public class PessoaFisicaCreate implements PessoaFisica.Builder {
 
   @Override
   public CPF getCpf() {
-    Long value = request.longParam("cpf");
-    return CPF.valueOf(value);
+    return CPF.parse(request.stringParam("cpf"));
   }
 
   @Override

@@ -15,6 +15,7 @@
  */
 package br.com.moonjava.flight.model.base;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.dao.base.UsuarioDAO;
@@ -88,12 +89,12 @@ public class UsuarioModel implements Usuario {
   }
 
   @Override
-  public void deletar(int id) {
+  public void deletar(int id) throws SQLException {
     dao.deletar(id);
   }
 
   @Override
-  public void atualizar(Usuario pojo) {
+  public void atualizar(Usuario pojo) throws SQLException {
     dao.atualizar(pojo);
   }
 
@@ -103,7 +104,7 @@ public class UsuarioModel implements Usuario {
   }
 
   @Override
-  public void criar(Usuario pojo) {
+  public void criar(Usuario pojo) throws SQLException {
     dao.criar(pojo);
   }
 

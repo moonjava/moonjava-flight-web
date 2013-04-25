@@ -61,7 +61,10 @@ public class FlightRequestWrapper implements RequestParam {
   }
   @Override
   public String stringParam(String param) {
-    return req.getParameter(param);
+    String val = req.getParameter(param);
+    if (val != null)
+      return val.isEmpty() ? null : val;
+    return null;
   }
 
   @Override
@@ -96,8 +99,9 @@ public class FlightRequestWrapper implements RequestParam {
   public DateTime dateTimeParam(String param) {
     try {
       String value = req.getParameter(param);
-      return value.isEmpty() ? null : FormatDateTime.parseDateTime(value);
-
+      if (!value.contains("_"))
+        return value.isEmpty() ? null : FormatDateTime.parseDateTime(value);
+      return null;
     } catch (NullPointerException e) {
       return null;
     }

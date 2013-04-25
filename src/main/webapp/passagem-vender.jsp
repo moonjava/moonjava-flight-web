@@ -19,19 +19,14 @@
       <div class="row">
         <div class="panel">
           <div id="container" class="panel-hd">
-            <h4>
-              <fmt:message key="menubar.passagem" />
-            </h4>
-
-            <input id="bilhete" class="span2" type="text" placeholder="<fmt:message key="transferir.passagem.titulo.filtroBilhete" />" /> 
-            <button id="consultar" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="transferir.passagem.consultar" /></button>
+            <h4><fmt:message key="menubar.passagem" /></h4>
 
             <input type="hidden" id="errorMsg" value="<fmt:message key="erro.campo.vazio" />">
             <div id="notification"></div>
 
           </div>
 
-          <form id="form" action="/moonjava-flight-web/base/passagem/cancelar" method="POST" style="margin-top: 10px;" class="form-horizontal">
+          <form id="form" action="/moonjava-flight-web/base/passagem/vender" method="POST" style="margin-top: 10px;" class="form-horizontal">
             <div id="content"></div>
           </form>
 
@@ -43,18 +38,24 @@
   </div>
 
 <script type="text/javascript">
+  var msgRequired = document.id('errorMsg').get('value');
+
+  var prmstr = window.location.search.substr(1);
+  var prmarr = prmstr.split("&");
+  var params = {};
+
+  for ( var i = 0; i < prmarr.length; i++) {
+    var tmparr = prmarr[i].split("=");
+    params[tmparr[0]] = tmparr[1];
+  }
+
   window.addEvent('domready', function() {
-    
-    document.id('consultar').addEvent('click', function() {
-      new Request.HTML({
-        method : 'get',
-        url : '/moonjava-flight-web/base/passagem/cancelar',
-        data : {
-          bilhete : document.id('bilhete').get('value')
-        },
-        update : 'content'
-      }).send();
-    });
+    new Request.HTML({
+      method : 'get',
+      url : '/moonjava-flight-web/base/passagem/vender',
+      data : params,
+      update : document.id('content')
+    }).send();
 
   });
 </script>
