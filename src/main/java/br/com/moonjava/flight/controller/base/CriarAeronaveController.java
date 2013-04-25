@@ -117,7 +117,7 @@ public class CriarAeronaveController extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     String codigo = new GerarCodigo("AERONAVE").getCodigo();
     req.setAttribute("codigo", codigo);
-    req.getRequestDispatcher("/aeronave-codigo.jsp").forward(req, resp);
+    req.getRequestDispatcher("/codigo.jsp").forward(req, resp);
   }
 
   public boolean accept(String name) {

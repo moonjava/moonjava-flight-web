@@ -67,7 +67,8 @@
           </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.voo" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="/moonjava-flight-web/#">Consultar</a></li>
+              <li><a href="/moonjava-flight-web/consultar-voo.jsp"><fmt:message key="voo.consultar" /></a></li>
+              <li><a href="/moonjava-flight-web/criar-voo.jsp"><fmt:message key="voo.cadastrar" /></a></li>
             </ul>
           </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.aeronave" /><b class="caret"></b></a>

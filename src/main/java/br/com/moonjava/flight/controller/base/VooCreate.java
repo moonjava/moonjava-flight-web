@@ -17,11 +17,12 @@ package br.com.moonjava.flight.controller.base;
 
 import org.joda.time.DateTime;
 
+import br.com.moonjava.flight.dao.base.AeronaveDAO;
 import br.com.moonjava.flight.model.base.Aeronave;
-import br.com.moonjava.flight.model.base.AeronaveFake;
 import br.com.moonjava.flight.model.base.Status;
 import br.com.moonjava.flight.model.base.Voo;
 import br.com.moonjava.flight.model.base.VooModel;
+import br.com.moonjava.flight.util.FormatDateTime;
 import br.com.moonjava.flight.util.RequestParam;
 
 /**
@@ -54,12 +55,7 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public Aeronave getAeronave() {
-    return new AeronaveFake() {
-      @Override
-      public int getId() {
-        return request.intParam("aeronave");
-      }
-    };
+    return new AeronaveDAO().consultarPorId(1/*request.intParam("aeronave")*/);
   }
 
   @Override
@@ -79,12 +75,12 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public DateTime getDataDePartida() {
-    return request.dateTimeParam("partida");
+    return FormatDateTime.parseToDateTime(request.stringParam("partida"), request.getCountry());
   }
 
   @Override
   public DateTime getDataDeChegada() {
-    return request.dateTimeParam("chegada");
+    return FormatDateTime.parseToDateTime(request.stringParam("chegada"), request.getCountry());
   }
 
   @Override
@@ -99,7 +95,7 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public int getAssentoLivre() {
-    return request.intParam("assentoLivre");
+    return getAeronave().getQtdDeAssento();
   }
 
   @Override

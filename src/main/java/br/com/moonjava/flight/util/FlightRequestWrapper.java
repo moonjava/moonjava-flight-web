@@ -99,8 +99,8 @@ public class FlightRequestWrapper implements RequestParam {
   public DateTime dateTimeParam(String param) {
     try {
       String value = req.getParameter(param);
-      if (!value.contains("_"))
-        return value.isEmpty() ? null : FormatDateTime.parseDateTime(value);
+      // if (!value.contains("_"))
+      // return value.isEmpty() ? null : FormatDateTime.parseDateTime(value);
       return null;
     } catch (NullPointerException e) {
       return null;
@@ -110,11 +110,18 @@ public class FlightRequestWrapper implements RequestParam {
   @Override
   public LocalDate localDateParam(String param) {
     try {
-      String value = req.getParameter(param);
-      return value.isEmpty() ? null : FormatDateTime.parseLocalDate(value);
+      String value = validDate(req.getParameter(param));
+      return value.isEmpty() ? null : FormatDateTime.parseToLocalDate(value, req.getLocale().getCountry());
     } catch (NullPointerException e) {
       return null;
     }
+  }
+
+  public String validDate(String value) {
+    if (value.endsWith("_")) {
+      return "";
+    }
+    return value;
   }
 
   @Override
@@ -131,6 +138,11 @@ public class FlightRequestWrapper implements RequestParam {
       e.printStackTrace();
     }
     return null;
+  }
+
+  @Override
+  public String getCountry() {
+    return req.getLocale().getCountry();
   }
 
 }
