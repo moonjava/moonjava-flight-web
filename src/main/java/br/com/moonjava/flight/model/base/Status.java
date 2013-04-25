@@ -57,6 +57,21 @@ public enum Status {
     return res;
   }
 
+  public String setBundle(String bundle, String web) {
+    String country = bundle;
+    String res = null;
+    if (country.equalsIgnoreCase("ES")) {
+      res = es;
+    }
+    else if (country.equalsIgnoreCase("US")) {
+      res = us;
+    }
+    else {
+      res = br;
+    }
+    return res;
+  }
+
   public String getName(String lang) {
     String res = null;
     if (lang.toUpperCase().equals("ES"))

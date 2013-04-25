@@ -15,177 +15,58 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.joda.time.DateTime;
-
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.Voo;
 import br.com.moonjava.flight.model.base.VooModel;
-import br.com.moonjava.flight.util.FlightFocusLostListener;
-import br.com.moonjava.flight.util.FormatDateTimeDesk;
-import br.com.moonjava.flight.util.RequestParamWrapper;
-import br.com.moonjava.flight.util.VerifierString;
-import br.com.moonjava.flight.view.voo.AtualizarVooUI;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
+import br.com.moonjava.flight.util.FormatDateTime;
 
 /**
  * @version 1.0 Aug 30, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class AtualizarVooController extends AtualizarVooUI {
+@WebServlet(value = "/base/voo/update")
+public class AtualizarVooController extends HttpServlet {
 
-  // Singleton
-  private static final AtualizarVooController ui = new AtualizarVooController();
-  private boolean result;
-  private List<Voo> list;
-  private JTable tabela;
+  private static final long serialVersionUID = 1L;
+  private final FlightCore core = FlightCore.getInstance();
 
-  private Voo pojo;
-
-  private DateTime _partida;
-  private DateTime _chegada;
-
-  private AtualizarVooController() {
-  }
-
-  public static AtualizarVooController getInstance() {
-    return ui;
-  }
-
-  public void setAttributes(JTable tabela,
-                            JPanel subConteudo,
-                            ResourceBundle bundle,
-                            JButton atualizar,
-                            JButton deletar,
-                            JButton status) {
-    this.tabela = tabela;
-    setAttributes(subConteudo, bundle, atualizar, deletar, status);
-    addAtualizarListener(new AtualizarHandler());
-    addEnviarListener(new EnviarHandler());
-    addFocusDataPartidaListener(new FocusDataPartidaHandler());
-    addFocusDataChegadaListener(new FocusDataChegadaHandler());
-  }
-
-  public void setResult(boolean result) {
-    this.result = result;
-  }
-
-  public void setList(List<Voo> list) {
-    this.list = list;
-  }
-
-  private class FocusDataPartidaHandler extends FlightFocusLostListener {
-    @Override
-    public void focusLost(FocusEvent e) {
-      // Valida a data de acordo com o país
-      try {
-        RequestParamWrapper request = getParameters();
-        String country = getCountry();
-        String partida = request.stringParam("partida");
-        String dataPartida = null;
-
-        if (country.equals("US")) {
-          String timePartida = request.stringParam("timePartida");
-          dataPartida = String.format("%s %s", partida, timePartida);
-        } else {
-          dataPartida = partida;
-        }
-        if (VerifierString.isDateValid(dataPartida, bundle)) {
-          addImagePartidaValid();
-          _partida = FormatDateTimeDesk.parseToDateTime(dataPartida, country);
-        } else {
-          addImagePartidaInvalid();
-        }
-      } catch (Exception e2) {
-        addImagePartidaInvalid();
-      }
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    FlightRequestWrapper request = new FlightRequestWrapper(req);
+    Voo voo = new VooUpdate(request).createInstance();
+    try {
+      new VooModel().atualizar(voo);
+      req.getRequestDispatcher("/consultar-voo.jsp").forward(req, resp);
+    } catch (Exception e) {
+      core.logError("SQL Error", e);
+      req.setAttribute("exception", e);
+      req.getRequestDispatcher("/erro.jsp").forward(req, resp);
     }
+
   }
 
-  private class FocusDataChegadaHandler extends FlightFocusLostListener {
-    @Override
-    public void focusLost(FocusEvent e) {
-      // Valida a data de acordo com o país
-      try {
-        RequestParamWrapper request = getParameters();
-        String country = getCountry();
-        String chegada = request.stringParam("chegada");
-        String dataChegada = null;
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
+    Integer id = wrapper.intParam("id");
 
-        if (country.equals("US")) {
-          String timeChegada = request.stringParam("timeChegada");
-          dataChegada = String.format("%s %s", chegada, timeChegada);
-        } else {
-          dataChegada = chegada;
-        }
-        if (VerifierString.isDateValid(dataChegada, bundle)) {
-          _chegada = FormatDateTimeDesk.parseToDateTime(dataChegada, country);
-          if (_chegada.isAfter(_partida)) {
-            addImageChegadaValid();
-          } else {
-            addImageChegadaInvalid();
-          }
-        } else {
-          addImageChegadaInvalid();
-        }
-      } catch (Exception e2) {
-        addImageChegadaInvalid();
-      }
-    }
-  }
-
-  private class AtualizarHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      disableButtons();
-
-      // busca voo selecionada
-      if (!result) {
-        result = true;
-        int[] rows = tabela.getSelectedRows();
-
-        if (rows.length == 1) {
-          pojo = list.get(rows[0]);
-          refresh();
-          showAll();
-        } else {
-          messageFailed();
-          refresh();
-        }
-
-      }
-    }
-  }
-
-  private class EnviarHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      try {
-        RequestParamWrapper request = getParameters();
-        request.set("id", pojo.getId());
-        request.set("partida", _partida);
-        request.set("chegada", _chegada);
-
-        Voo pojo = new VooUpdate(request).createInstance();
-        boolean executed = new VooModel().atualizar(pojo);
-        if (executed) {
-          messageOK();
-          refresh();
-        } else {
-          messageTimeException();
-        }
-      } catch (Exception e2) {
-        addMessageFailed();
-      }
-    }
+    Voo voo = new VooModel().consultarPorId(id);
+    req.setAttribute("voo_id", voo.getId());
+    req.setAttribute("voo_codigo", voo.getCodigo());
+    req.setAttribute("voo_partida", FormatDateTime.parseToStringDateTime(voo.getDataDePartida().toString(), req.getLocale().getCountry()));
+    req.setAttribute("voo_chegada", FormatDateTime.parseToStringDateTime(voo.getDataDeChegada().toString(), req.getLocale().getCountry()));
+    req.setAttribute("voo_observacao", voo.getObservacao());
+    req.getRequestDispatcher("/voo-form-update.jsp").forward(req, resp);
   }
 
 }
