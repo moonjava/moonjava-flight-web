@@ -15,90 +15,59 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.UIManager;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import br.com.moonjava.flight.core.FlightCore;
 import br.com.moonjava.flight.model.base.PassagemModel;
 import br.com.moonjava.flight.model.base.Voo;
 import br.com.moonjava.flight.model.base.VooModel;
-import br.com.moonjava.flight.view.voo.DeletarVooUI;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
+import br.com.moonjava.flight.util.JSONObject;
 
 /**
  * @version 1.0 Aug 30, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class DeletarVooController extends DeletarVooUI {
+@WebServlet(value = "/base/voo/del")
+public class DeletarVooController extends HttpServlet {
 
-  // Singleton
-  private static final DeletarVooController ui = new DeletarVooController();
-  private boolean result;
-  private List<Voo> list;
-  private JTable tabela;
-
-  private DeletarVooController() {
-  }
-
-  public static DeletarVooController getInstance() {
-    return ui;
-  }
+  private static final long serialVersionUID = 1L;
+  private final FlightCore core = FlightCore.getInstance();
 
   @Override
-  public void setAttributes(JTable tabela,
-                            JPanel conteudo,
-                            ResourceBundle bundle,
-                            JButton atualizar,
-                            JButton deletar,
-                            JButton status) {
-    this.tabela = tabela;
-    super.setAttributes(tabela, conteudo, bundle, atualizar, deletar, status);
-    addDeletarListener(new DeletarHandler());
-  }
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    req.setCharacterEncoding("utf8");
+    resp.setContentType("application/json");
+    PrintWriter out = resp.getWriter();
+    JSONObject obj = new JSONObject();
 
-  public void setResult(boolean result) {
-    this.result = result;
-  }
+    FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
+    int id = wrapper.intParam("id");
 
-  public void setList(List<Voo> list) {
-    this.list = list;
-  }
+    try {
+      PassagemModel passagemModel = new PassagemModel();
+      VooModel vooModel = new VooModel();
 
-  private class DeletarHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      if (!result) {
-        UIManager.put("OptionPane.cancelButtonText", bundle.getString("cancelar"));
-        int confirmed = JOptionPane.showConfirmDialog(null,
-            bundle.getString("deletar.voo.joption"),
-            bundle.getString("criar.voo.joption.titulo"),
-            JOptionPane.OK_CANCEL_OPTION);
-        if (confirmed == 0) {
-          disableButtons();
+      Voo pojo = vooModel.consultarPorId(id);
+      passagemModel.cancelarPorVoo(pojo);
+      vooModel.deletar(pojo.getId());
 
-          result = true;
-          int[] rows = tabela.getSelectedRows();
-          Voo vooModel = new VooModel();
-          PassagemModel passagemModel = new PassagemModel();
-
-          for (int i = 0; i < rows.length; i++) {
-            Voo pojo = list.get(rows[i]);
-            passagemModel.cancelarPorVoo(pojo);
-            vooModel.deletar(pojo.getId());
-          }
-
-          messageDeleteOK();
-          refresh();
-        }
-      }
+      obj.put("success", "true");
+    } catch (SQLException e) {
+      obj.put("failure", "true");
+      obj.put("exception", e);
+      core.logError("SQL voo has failed", e);
     }
+    out.print(obj);
   }
 
 }

@@ -89,7 +89,7 @@ public class VooDAO implements Voo.Jdbc {
     return query()
 
         .with("where 1 = 1")
-        .with("and VOO.STATUS = ?", status.ordinal())
+        .with("and VOO.STATUS = ?", 0)
         .with("and VOO.DATA_PARTIDA >= ?", partida)
         .with("and VOO.DATA_CHEGADA <= ?", chegada)
         .with("and VOO.ORIGEM like concat ('%', ?, '%')", origem)

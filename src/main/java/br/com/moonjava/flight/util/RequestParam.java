@@ -45,4 +45,6 @@ public interface RequestParam {
 
   InputStream inputStreamParam(String param);
 
+  String getCountry();
+
 }
