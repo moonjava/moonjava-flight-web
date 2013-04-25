@@ -127,6 +127,7 @@ public class VenderPassagemController extends HttpServlet {
           new VooModel().decrementarAssento(request.intParam("vooId"));
           req.setAttribute("voo", voo);
           req.setAttribute("pf", pf);
+          req.setAttribute("preco", request.doubleParam("valor"));
           req.getRequestDispatcher("/emitir-bilhete.jsp").forward(req, resp);
         } catch (SQLException e) {
           core.logError("SQL Error", e);

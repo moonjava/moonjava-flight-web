@@ -14,7 +14,7 @@
     <label class="control-label" for="codigo"><fmt:message key="vender.passagem.codigo" /></label>
     <div class="controls">
       <input type="hidden" name="codigo" value="${codigo}"> <span class="input-xlarge uneditable-input span3">${codigo}</span>
-      <input id="preco" type="hidden" value="${voo.preco}">
+      <input id="preco" name="preco" type="hidden" value="${voo.preco}">
       <input name="vooId" type="hidden" value="${voo.id}">
     </div>
   </div>

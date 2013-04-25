@@ -6,7 +6,7 @@
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="br.com.moonjava.flight.bundle.arquivo" />
+<fmt:setBundle basename="arquivo" />
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -23,7 +23,7 @@
           <div id="container" class="panel-hd">
             <h4><fmt:message key="menubar.voo" /></h4>
 
-            <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="consultar.voo.joption.err.selecao" />">
+            <input type="hidden" id="errorDeleteMsg" value="<fmt:message key="erro.campo.vazio" />">
             <div id="notification"></div>
 
           </div>

@@ -86,4 +86,9 @@ public class RequestParamWrapper implements RequestParam {
     return (InputStream) map.get(param);
   }
 
+  @Override
+  public String getCountry() {
+    return null;
+  }
+
 }

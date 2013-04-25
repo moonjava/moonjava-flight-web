@@ -55,7 +55,7 @@ public class TesteDeCriarPessoaFisica extends FlightLoaderTest {
     String nome = "Nome E";
     String sobrenome = "Sobrenome E";
     LocalDate nascimento = new LocalDate(1990 - 04 - 15);
-    long cpf = 55555555555l;
+    String cpf = "555.555.555-55";
     String rg = "55777333X";
     String endereco = "Endereço E N°99";
     long telResidencial = 55334477l;
@@ -63,7 +63,7 @@ public class TesteDeCriarPessoaFisica extends FlightLoaderTest {
     String email = "testedecriacao@moonjava.com.br";
 
     request.set("nome", "Nome");
-    PessoaFisica antes = dao.consultarPorCpf(CPF.valueOf(cpf));
+    PessoaFisica antes = dao.consultarPorCpf(CPF.parse(cpf));
     assertThat(antes, equalTo(null));
 
     request.set("nome", nome);
@@ -79,11 +79,11 @@ public class TesteDeCriarPessoaFisica extends FlightLoaderTest {
     PessoaFisica pf = new PessoaFisicaCreate(request).createInstance();
     dao.criar(pf);
 
-    PessoaFisica res = dao.consultarPorCpf(CPF.valueOf(cpf));
+    PessoaFisica res = dao.consultarPorCpf(CPF.parse(cpf));
     assertThat(res.getNome(), equalTo(nome));
     assertThat(res.getSobrenome(), equalTo(sobrenome));
     assertThat(res.getDataNascimento(), equalTo(nascimento));
-    assertThat(res.getCpf().getDigito(), equalTo(cpf));
+    assertThat(res.getCpf().getDigito(), equalTo(CPF.parse(cpf).getDigito()));
     assertThat(res.getRg(), equalTo(rg));
     assertThat(res.getEndereco(), equalTo(endereco));
     assertThat(res.getTelResidencial(), equalTo(telResidencial));

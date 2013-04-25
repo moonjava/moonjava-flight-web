@@ -60,11 +60,6 @@
               <li><a href="/moonjava-flight-web/transferir-passagem.jsp"><fmt:message key="passagem.transferir" /></a></li>
             </ul>
           </li>
-          <li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.checkin" /><b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/moonjava-flight-web/voo">Efetuar agora</a></li>
-            </ul>
-          </li>
           <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.voo" /><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/moonjava-flight-web/consultar-voo.jsp"><fmt:message key="voo.consultar" /></a></li>

@@ -27,25 +27,26 @@ import org.joda.time.LocalDate;
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class FormatDateTime {
+public final class FormatDateTime {
 
   // Formata Datas de acordo com o páis (adiciona AM e PM ao US)
   private FormatDateTime() {
   }
 
-  public static DateTime parseToDateTime(String value, String country) {
+  public static DateTime parseToDateTime(String value) {
     try {
-      Date date = null;
-      if (country.equals("US")) {
-        date = new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(value);
-      }
-      else {
-        date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(value);
-      }
+      Date date = new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(value);
       String format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(date);
       return DateTime.parse(format);
     } catch (ParseException e) {
-      throw new RuntimeException(e);
+      try {
+        Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(value);
+        String format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(date);
+        return DateTime.parse(format);
+      } catch (ParseException e1) {
+        throw new RuntimeException(e);
+      }
+
     }
   }
 
@@ -53,7 +54,7 @@ public class FormatDateTime {
     try {
       String time = null;
       Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(value);
-      if (country.equals("US")) {
+      if (country.toUpperCase().equals("EN")) {
         time = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa").format(date);
       }
       else {
@@ -67,17 +68,17 @@ public class FormatDateTime {
 
   public static LocalDate parseToLocalDate(String value, String country) {
     try {
-      Date date = null;
-      if (country.equals("US")) {
-        date = new SimpleDateFormat("MM/dd/yyyy").parse(value);
-      }
-      else {
-        date = new SimpleDateFormat("dd/MM/yyyy").parse(value);
-      }
+      Date date = new SimpleDateFormat("MM/dd/yyyy").parse(value);
       String format = new SimpleDateFormat("yyyy-MM-dd").format(date);
       return LocalDate.parse(format);
     } catch (ParseException e) {
-      throw new RuntimeException(e);
+      try {
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(value);
+        String format = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        return LocalDate.parse(format);
+      } catch (ParseException e1) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
@@ -85,7 +86,7 @@ public class FormatDateTime {
     try {
       String time = null;
       Date date = new SimpleDateFormat("yyyy-MM-dd").parse(value);
-      if (country.equals("US")) {
+      if (country.toUpperCase().equals("EN")) {
         time = new SimpleDateFormat("MM/dd/yyyy").format(date);
       }
       else {

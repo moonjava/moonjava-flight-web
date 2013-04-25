@@ -10,6 +10,7 @@ ID integer not null auto_increment,
 NOME varchar(40) not null,
 CODIGO varchar(40) not null,
 QTD_ASSENTO smallint not null,
+IMAGEM mediumblob not null,
 MAPA tinyint not null,
 
 primary key (ID),

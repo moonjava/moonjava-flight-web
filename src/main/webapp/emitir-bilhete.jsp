@@ -48,7 +48,7 @@
             <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
           </c:if>
           
-          <td>${voo.preco}</td>
+          <td>${preco}</td>
         </tr>
       </tbody>
     </table>

@@ -75,12 +75,12 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public DateTime getDataDePartida() {
-    return FormatDateTime.parseToDateTime(request.stringParam("partida"), request.getCountry());
+    return FormatDateTime.parseToDateTime(request.stringParam("partida"));
   }
 
   @Override
   public DateTime getDataDeChegada() {
-    return FormatDateTime.parseToDateTime(request.stringParam("chegada"), request.getCountry());
+    return FormatDateTime.parseToDateTime(request.stringParam("chegada"));
   }
 
   @Override

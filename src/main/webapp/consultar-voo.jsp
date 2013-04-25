@@ -5,7 +5,7 @@
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="br.com.moonjava.flight.bundle.arquivo" />
+<fmt:setBundle basename="arquivo" />
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -22,16 +22,34 @@
           <div id="container" class="panel-hd">
             <h4><fmt:message key="menubar.voo" /></h4>
 
+            <input id="status" name="status" class="span2" type="hidden" value="DISPONIVEL" />
             <input id="origem" class="span2" type="text" placeholder="<fmt:message key="consultar.voo.titulo.origem" />" />
             <input id="destino" class="span2" type="text" placeholder="<fmt:message key="consultar.voo.titulo.destino" />" />
             <input id="partida" class="span2" type="text" placeholder="<fmt:message key="consultar.voo.titulo.partida" />" />
             <input id="chegada" class="span2" type="text" placeholder="<fmt:message key="consultar.voo.titulo.chegada" />" />
             <c:set var="enumStatus" value="<%=Status.values()%>" />
-            <select id="status" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
-            	<c:forEach var="current" items="${enumStatus}">
-            		<option value="${current.ordinal()}">${current.setBundle(req.getLocale().getCountry(), "web")}</option>
-            	</c:forEach>
-            </select>
+
+            <c:if test="${language == 'pt'}">
+              <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
+                <c:forEach var="current" items="${enumStatus}">
+                  <option value="${current}">${current.setName('pt')}</option>
+                </c:forEach>
+              </select>
+            </c:if>
+            <c:if test="${language == 'en'}">
+              <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
+                <c:forEach var="current" items="${enumStatus}">
+                  <option value="${current}">${current.setName('en')}</option>
+                </c:forEach>
+              </select>
+            </c:if>
+            <c:if test="${language == 'es'}">
+              <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
+                <c:forEach var="current" items="${enumStatus}">
+                  <option value="${current}">${current.setName('es')}</option>
+                </c:forEach>
+              </select>
+            </c:if>
 
             <button id="refresh" class="btn btn-info"><i class="icon-refresh icon-white"></i> <fmt:message key="aeronave.limpar" /></button>
             <button id="update" class="btn btn-success"><i class="icon-ok-sign icon-white"></i> <fmt:message key="voo.atualizar" /></button>
@@ -65,47 +83,64 @@
   </div>
 
 <script type="text/javascript">
+
   window.addEvent('domready', function() {
     var msgDeleteError = document.id('errorDeleteMsg').get('value');
-    
+
     new PageDelete({
       id : 'content', // Local onde sera renderizado
       page : '/moonjava-flight-web/consultar-voo.jsp', // Pagina para refresh apos deletar item
       deleteUrl : '/moonjava-flight-web/base/voo/del', // url para deletar
       deleteErrorMsg : msgDeleteError, // mensagem de erro
     });
-    
+
     new PageSearch({
       id : 'content', // Local onde sera renderizado a consulta
       serviceUrl : '/moonjava-flight-web/base/voo', // url da tabela de acordo com o filtro
       filter : { // Filtros de campos de textos
-    	origem : document.id('origem').get('value'),
-    	destino : document.id('destino').get('value'),
-    	partida : document.id('partida').get('value'),
-    	chegada : document.id('chegada').get('value'),
-    	status : document.id('status').value   	
-        
+        origem : document.id('origem').get('value'),
+        destino : document.id('destino').get('value'),
+        partida : document.id('partida').get('value'),
+        chegada : document.id('chegada').get('value'),
+        status : document.id('status').value
+
       }
     });
-    
+
     new PageUpdate({
-        id : 'content', // Local onde sera renderizado
-        page : '/moonjava-flight-web/atualizar-voo.jsp', // Pagina para refresh apos deletar item
-        deleteErrorMsg : msgDeleteError, // mensagem de erro
+      id : 'content', // Local onde sera renderizado
+      page : '/moonjava-flight-web/atualizar-voo.jsp', // Pagina para refresh apos deletar item
+      deleteErrorMsg : msgDeleteError, // mensagem de erro
     });
-    
+
     new PageDelete({
-        id : 'content', // Local onde sera renderizado
-        page : '/moonjava-flight-web/consultar-voo.jsp', // Pagina para refresh apos deletar item
-        deleteUrl : '/moonjava-flight-web/base/voo/del', // url para deletar
-        deleteErrorMsg : msgDeleteError, // mensagem de erro
+      id : 'content', // Local onde sera renderizado
+      page : '/moonjava-flight-web/consultar-voo.jsp', // Pagina para refresh apos deletar item
+      deleteUrl : '/moonjava-flight-web/base/voo/del', // url para deletar
+      deleteErrorMsg : msgDeleteError, // mensagem de erro
     });
-    
+
+    document.id('statusHidden').addEvent('change', function() {
+      document.id('status').value = document.id('statusHidden').get('value');
+      var el =  $$('input');
+      Array.each(el, function(key) {
+        var json = {};
+        for(var i = 0; i < el.length; i++) {
+          json[el[i].id] = el[i].value;
+        }
+        new Request.HTML({
+          method : 'get',
+          url : '/moonjava-flight-web/base/voo',
+          data : json,
+          update : document.id('content')
+        }).send();
+      });
+    });
   });
-  
-  jQuery(function($){
-	   $("#partida").mask("99/99/9999 99:99");
-	   $("#chegada").mask("99/99/9999 99:99");
+
+  jQuery(function($) {
+    $("#partida").mask("99/99/9999 99:99");
+    $("#chegada").mask("99/99/9999 99:99");
   });
 </script>
 </body>

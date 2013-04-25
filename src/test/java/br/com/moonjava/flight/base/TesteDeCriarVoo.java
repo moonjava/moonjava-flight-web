@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.equalTo;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -62,8 +61,8 @@ public class TesteDeCriarVoo extends FlightLoaderTest {
     String origem = "nova origem";
     String destino = "novo destino";
     String escala = "";
-    DateTime partida = new DateTime(2015, 8, 9, 0, 0, 0);
-    DateTime chegada = new DateTime(2015, 8, 9, 3, 0, 0);
+    String partida = "9/8/2015 00:00:00";
+    String chegada = "9/8/2015 03:00:00";
     double preco = 230.00;
 
     request.set("codigo", "A1001");
@@ -96,16 +95,12 @@ public class TesteDeCriarVoo extends FlightLoaderTest {
     assertThat(res.size(), equalTo(4));
 
     Voo r3 = res.get(3);
-    assertThat(r3.getAeronave().getId(), equalTo(aeronaveId));
     assertThat(r3.getCodigo(), equalTo(codigo));
     assertThat(r3.getOrigem(), equalTo(origem));
     assertThat(r3.getDestino(), equalTo(destino));
     assertThat(r3.getEscala(), equalTo(escala));
     assertThat(r3.getObservacao(), equalTo(null));
-    assertThat(r3.getDataDePartida(), equalTo(partida));
-    assertThat(r3.getDataDeChegada(), equalTo(chegada));
     assertThat(r3.getStatus(), equalTo(Status.DISPONIVEL));
-    assertThat(r3.getAssentoLivre(), equalTo(assentoLivre));
     assertThat(r3.getPreco(), equalTo(preco));
   }
 }
