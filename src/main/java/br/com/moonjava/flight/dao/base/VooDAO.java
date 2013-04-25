@@ -80,6 +80,8 @@ public class VooDAO implements Voo.Jdbc {
   @Override
   public List<Voo> consultar(RequestParam request) {
     Status status = request.enumParam(Status.class, "status");
+    Integer ordinal = status != null ? status.ordinal() : null;
+
     DateTime partida = request.dateTimeParam("partida");
     DateTime chegada = request.dateTimeParam("chegada");
     String origem = request.stringParam("origem");
@@ -89,7 +91,7 @@ public class VooDAO implements Voo.Jdbc {
     return query()
 
         .with("where 1 = 1")
-        .with("and VOO.STATUS = ?", status.ordinal())
+        .with("and VOO.STATUS = ?", ordinal)
         .with("and VOO.DATA_PARTIDA >= ?", partida)
         .with("and VOO.DATA_CHEGADA <= ?", chegada)
         .with("and VOO.ORIGEM like concat ('%', ?, '%')", origem)

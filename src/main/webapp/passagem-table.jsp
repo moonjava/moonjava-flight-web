@@ -30,7 +30,7 @@
           <th><fmt:message key="consultar.voo.coluna.4" /></th>
           <th><fmt:message key="consultar.voo.coluna.5" /></th>
           <th><fmt:message key="consultar.voo.coluna.6" /></th>
-          <th></th>
+          <th><fmt:message key="criar.voo.titulo.preco" /></th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +60,8 @@
               <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td>${voo.status.setName('es')}</td>
             </c:if>
+            
+            <td>${voo.preco}</td>
           </tr>
         </c:forEach>
       </tbody>
