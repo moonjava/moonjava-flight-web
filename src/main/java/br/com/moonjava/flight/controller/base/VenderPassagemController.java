@@ -52,7 +52,8 @@ public class VenderPassagemController extends HttpServlet {
   private final FlightCore core = FlightCore.getInstance();
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+      IOException {
     FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
     String pageConsulta = wrapper.stringParam("id");
     if (pageConsulta == null) {
@@ -86,7 +87,8 @@ public class VenderPassagemController extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+      IOException {
     FlightRequestWrapper request = new FlightRequestWrapper(req);
     PessoaFisicaModel pessoaFisicaModel = new PessoaFisicaModel();
     PessoaFisica pf = pessoaFisicaModel.consultarPorCPF(CPF.parse(request.stringParam("cpf")));
@@ -104,36 +106,36 @@ public class VenderPassagemController extends HttpServlet {
         req.setAttribute("exception", e);
         req.getRequestDispatcher("/erro.jsp").forward(req, resp);
       }
+    }
 
-      pf = new PessoaFisicaModel().consultarPorCPF(CPF.parse(request.stringParam("cpf")));
-      RequestParamWrapper wrapper = new RequestParamWrapper();
-      wrapper.set("voo", request.intParam("vooId"));
-      wrapper.set("pessoaFisica", pf.getId());
-      wrapper.set("codBilhete", request.stringParam("codigo"));
+    pf = new PessoaFisicaModel().consultarPorCPF(CPF.parse(request.stringParam("cpf")));
+    RequestParamWrapper wrapper = new RequestParamWrapper();
+    wrapper.set("voo", request.intParam("vooId"));
+    wrapper.set("pessoaFisica", pf.getId());
+    wrapper.set("codBilhete", request.stringParam("codigo"));
 
-      Passagem pojo = new PassagemCreate(wrapper).createInstance();
-      boolean executed = false;
+    Passagem pojo = new PassagemCreate(wrapper).createInstance();
+    boolean executed = false;
+    try {
+      executed = new PassagemModel().vender(pojo);
+    } catch (SQLException e) {
+      core.logError("SQL Error", e);
+      req.setAttribute("exception", e);
+      req.getRequestDispatcher("/erro.jsp").forward(req, resp);
+    }
+
+    if (executed) {
       try {
-        executed = new PassagemModel().vender(pojo);
+        Voo voo = new VooModel().consultarPorId(request.intParam("vooId"));
+        new VooModel().decrementarAssento(request.intParam("vooId"));
+        req.setAttribute("voo", voo);
+        req.setAttribute("pf", pf);
+        req.setAttribute("preco", request.doubleParam("valor"));
+        req.getRequestDispatcher("/emitir-bilhete.jsp").forward(req, resp);
       } catch (SQLException e) {
         core.logError("SQL Error", e);
         req.setAttribute("exception", e);
         req.getRequestDispatcher("/erro.jsp").forward(req, resp);
-      }
-
-      if (executed) {
-        try {
-          Voo voo = new VooModel().consultarPorId(request.intParam("vooId"));
-          new VooModel().decrementarAssento(request.intParam("vooId"));
-          req.setAttribute("voo", voo);
-          req.setAttribute("pf", pf);
-          req.setAttribute("preco", request.doubleParam("valor"));
-          req.getRequestDispatcher("/emitir-bilhete.jsp").forward(req, resp);
-        } catch (SQLException e) {
-          core.logError("SQL Error", e);
-          req.setAttribute("exception", e);
-          req.getRequestDispatcher("/erro.jsp").forward(req, resp);
-        }
       }
     }
   }

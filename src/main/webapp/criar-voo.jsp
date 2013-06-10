@@ -66,7 +66,7 @@
               <label class="control-label" for="aeronave"><fmt:message key="criar.voo.titulo.aeronave" /></label>
               <div class="controls">
                 <c:set var="aeronaves" value="<%=new AeronaveModel().consultar(new FlightRequestWrapper(request))%>" />
-                <select id="aeronave" class="span2" title="<fmt:message key="criar.voo.titulo.aeronave" />">
+                <select id="aeronave" name="aeronave" class="span2" title="<fmt:message key="criar.voo.titulo.aeronave" />">
               	  <c:forEach var="current" items="${aeronaves}">
               	    <option value="${current.getId()}">${current.getNome()}</option>
                   </c:forEach>

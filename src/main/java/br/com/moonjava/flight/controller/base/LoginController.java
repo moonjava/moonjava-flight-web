@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet implements Filter {
 
     Usuario usuarioLogado = core.getUsuarioLogado();
     if (usuarioLogado != null) {
-      core.logInfo("Usuario logado");
+      core.logInfo("Usuario " + usuarioLogado.getLogin() + " logado");
       chain.doFilter(req, resp);
     } else {
       core.logInfo("Usuario NAO logado");

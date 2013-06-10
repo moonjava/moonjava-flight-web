@@ -70,7 +70,7 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public String getEscala() {
-    return request.stringParam("escala");
+    return request.stringParam("escala") != null ? request.stringParam("destino") : "N/D";
   }
 
   @Override

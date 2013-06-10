@@ -74,6 +74,7 @@
                             <li><a href="/moonjava-flight-web/consultar-usuario.jsp"><fmt:message key="usuario.consultar" /></a></li>
                             <li><a href="/moonjava-flight-web/criar-usuario.jsp"><fmt:message key="usuario.cadastrar" /></a></li>
                         </ul></li>
+                    <li><a href="/moonjava-flight-web/checkin.jsp">CHECK-IN</a></li>
                     <li><img src="/moonjava-flight-web/img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
                     <li><img src="/moonjava-flight-web/img/us-united-states-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('en');"></li>
                     <li><img src="/moonjava-flight-web/img/spain-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('es');"></li>
