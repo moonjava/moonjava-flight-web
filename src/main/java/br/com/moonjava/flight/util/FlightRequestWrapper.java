@@ -70,7 +70,6 @@ public class FlightRequestWrapper implements RequestParam {
   @Override
   public <E extends Enum<E>> E enumParam(Class<E> enumClass, String param) {
     E res = null;
-
     String value = req.getParameter(param);
     if (value != null) {
       try {

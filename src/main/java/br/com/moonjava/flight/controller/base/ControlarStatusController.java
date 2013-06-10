@@ -15,91 +15,52 @@
  */
 package br.com.moonjava.flight.controller.base;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.UIManager;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import br.com.moonjava.flight.model.base.Status;
-import br.com.moonjava.flight.model.base.Voo;
 import br.com.moonjava.flight.model.base.VooModel;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
+import br.com.moonjava.flight.util.JSONObject;
 
 /**
  * @version 1.0 Aug 17, 2012
  * @contact tiago.aguiar@moonjava.com.br
  * 
  */
-public class ControlarStatusController implements ActionListener {
-
-  // Singleton
-  private static final ControlarStatusController ui = new ControlarStatusController();
-  private boolean result;
-  private List<Voo> list;
-  private JTable tabela;
-
-  private JPanel conteudo;
-  private ResourceBundle bundle;
-
-  private ControlarStatusController() {
-  }
-
-  public static ControlarStatusController getInstance() {
-    return ui;
-  }
-
-  public void setAttributes(JTable tabela, List<Voo> list, JPanel conteudo, ResourceBundle bundle) {
-    this.tabela = tabela;
-    this.list = list;
-    this.conteudo = conteudo;
-    this.bundle = bundle;
-  }
-
-  public void setResult(boolean result) {
-    this.result = result;
-  }
+@WebServlet(value = "/base/voo/status")
+public class ControlarStatusController extends HttpServlet {
+  
+  private static final long serialVersionUID = 1L;
 
   @Override
-  public void actionPerformed(ActionEvent e) {
-    if (!result) {
-      result = true;
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    req.setCharacterEncoding("utf8");
+    resp.setContentType("application/json");
+    PrintWriter out = resp.getWriter();
+    JSONObject obj = new JSONObject();
 
-      Status[] values = Status.values();
-      String[] nomes = new String[values.length];
-      for (int i = 0; i < values.length; i++) {
-        nomes[i] = values[i].setBundle(bundle);
-      }
+    FlightRequestWrapper wrapper = new FlightRequestWrapper(req);
+    int id = wrapper.intParam("id");
+    Status status = wrapper.enumParam(Status.class, "statusRes");
 
-      UIManager.put("OptionPane.cancelButtonText", bundle.getString("cancelar"));
-      String status = (String) JOptionPane.showInputDialog(null, "Status:", "Status", 1, null,
-          nomes, Status.DISPONIVEL);
-
-      Voo vooModel = new VooModel();
-
-      if (status != null) {
-        int[] rows = tabela.getSelectedRows();
-        for (int i = 0; i < rows.length; i++) {
-          Voo pojo = list.get(rows[i]);
-          try {
-            vooModel.controlarStatus(pojo.getId(), Status.fromString(status));
-          } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-          }
-        }
-
-        JOptionPane.showMessageDialog(null, bundle.getString("status.voo.joption.ok"));
-
-        conteudo.removeAll();
-        conteudo.repaint();
-        conteudo.validate();
-      }
+    try {
+      VooModel vooModel = new VooModel();
+      vooModel.controlarStatus(id, status);
+      
+      obj.put("success", "true");
+    } catch (SQLException e) {
+      obj.put("failure", "true");
+      obj.put("exception", e);
     }
+    out.print(obj);
   }
-
+  
 }

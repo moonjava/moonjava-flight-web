@@ -21,6 +21,7 @@
 
 <script type="text/javascript" src="/moonjava-flight-web/js/FormValidate.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageDelete.js"></script>
+<script type="text/javascript" src="/moonjava-flight-web/js/PageStatus.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageSearch.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageMap.js"></script>
 <script type="text/javascript" src="/moonjava-flight-web/js/PageUpdate.js"></script>
@@ -63,6 +64,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="/moonjava-flight-web/consultar-voo.jsp"><fmt:message key="voo.consultar" /></a></li>
                             <li><a href="/moonjava-flight-web/criar-voo.jsp"><fmt:message key="voo.cadastrar" /></a></li>
+                            <li><a href="/moonjava-flight-web/controlar-status.jsp"><fmt:message key="voo.status" /></a></li>
                         </ul></li>
                     <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.aeronave" /><b class="caret"></b></a>
                         <ul class="dropdown-menu">
