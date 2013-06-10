@@ -24,6 +24,8 @@ import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.moonjava.flight.model.base.Usuario;
+
 /**
  * @version 1.0 Apr 18, 2013
  * @contact tiago.aguiar@moonjava.com.br
@@ -37,6 +39,7 @@ public class FlightCore implements ServletContextListener {
   private static FlightCore core = new FlightCore();
   private ResourceBundle bundle;
   private Logger log;
+  private Usuario usuarioLogado;
 
   public static FlightCore getInstance() {
     return core != null ? core : new FlightCore(); // Singleton
@@ -72,6 +75,14 @@ public class FlightCore implements ServletContextListener {
 
   public void logInfo(String msg) {
     log.info(msg);
+  }
+
+  public Usuario getUsuarioLogado() {
+    return usuarioLogado;
+  }
+
+  public void setUsuarioLogado(Usuario usuarioLogado) {
+    this.usuarioLogado = usuarioLogado;
   }
 
 }

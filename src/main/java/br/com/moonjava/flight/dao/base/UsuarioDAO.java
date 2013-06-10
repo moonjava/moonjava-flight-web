@@ -83,9 +83,9 @@ public class UsuarioDAO implements Usuario.Jdbc {
   }
 
   @Override
-  public Usuario consultarUsuario(RequestParam request) {
+  public Usuario consultarUsuario(RequestParam request, String cript) {
     String login = request.stringParam("login");
-    String senha = request.stringParam("senha");
+    String senha = cript;
 
     return query()
 

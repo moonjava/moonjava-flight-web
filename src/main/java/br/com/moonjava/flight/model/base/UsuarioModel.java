@@ -99,8 +99,8 @@ public class UsuarioModel implements Usuario {
   }
 
   @Override
-  public Usuario consultarUsuario(FlightRequestWrapper request) {
-    return dao.consultarUsuario(request);
+  public Usuario consultarUsuario(FlightRequestWrapper request, String cript) {
+    return dao.consultarUsuario(request, cript);
   }
 
   @Override

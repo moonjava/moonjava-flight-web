@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="${language}">
 <head>
+<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <script type="text/javascript" src="/moonjava-flight-web/js/jquery-1.7.2.js"></script>
@@ -44,7 +45,45 @@
 </script>
 
 <title>Flight :: Web</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<style type="text/css">
+body {
+				padding-top: 40px;
+				padding-bottom: 40px;
+				background-color: #f5f5f5;
+}
+
+.form-signin {
+				max-width: 300px;
+				padding: 19px 29px 29px;
+				margin: 0 auto 20px;
+				background-color: #fff;
+				border: 1px solid #e5e5e5;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+				-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+				box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.form-signin .form-signin-heading,.form-signin .checkbox {
+				margin-bottom: 10px;
+}
+
+.form-signin input[type="text"],.form-signin input[type="password"] {
+				font-size: 16px;
+				height: auto;
+				margin-bottom: 15px;
+				padding: 7px 9px;
+}
+</style>
 </head>
+
 <body>
 
     <div class="navbar navbar-fixed-top">
@@ -52,36 +91,10 @@
             <div class="container">
                 <a class="brand">Flight :: Web</a>
                 <ul class="nav nav-pills">
-                    <li><a href="/moonjava-flight-web/">HOME</a></li>
-                    <li class="dropdown" id="menu1"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.passagem" /><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/moonjava-flight-web/vender-passagem.jsp"><fmt:message key="passagem.vender" /></a></li>
-                            <li><a href="/moonjava-flight-web/cancelar-passagem.jsp"><fmt:message key="passagem.cancelar" /></a></li>
-                            <li><a href="/moonjava-flight-web/transferir-passagem.jsp"><fmt:message key="passagem.transferir" /></a></li>
-                        </ul></li>
-                    <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.voo" /><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/moonjava-flight-web/consultar-voo.jsp"><fmt:message key="voo.consultar" /></a></li>
-                            <li><a href="/moonjava-flight-web/criar-voo.jsp"><fmt:message key="voo.cadastrar" /></a></li>
-                        </ul></li>
-                    <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.aeronave" /><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/moonjava-flight-web/consultar-aeronave.jsp"><fmt:message key="aeronave.consultar" /></a></li>
-                            <li><a href="/moonjava-flight-web/criar-aeronave.jsp"><fmt:message key="aeronave.cadastrar" /></a></li>
-                        </ul></li>
-                    <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.usuario" /><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/moonjava-flight-web/consultar-usuario.jsp"><fmt:message key="usuario.consultar" /></a></li>
-                            <li><a href="/moonjava-flight-web/criar-usuario.jsp"><fmt:message key="usuario.cadastrar" /></a></li>
-                        </ul></li>
                     <li><img src="/moonjava-flight-web/img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
                     <li><img src="/moonjava-flight-web/img/us-united-states-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('en');"></li>
                     <li><img src="/moonjava-flight-web/img/spain-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('es');"></li>
                 </ul>
-                <form id="form-login" action="/moonjava-flight-web/base/login" method="get">
-                    <input type="hidden" name="logout" value="logout">
-                    <button class="btn btn-small btn-primary" type="submit">Logout</button>
-                </form>
                 <form id="form-lang" style="display: none;">
                     <select id="language" name="language">
                         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
@@ -92,5 +105,17 @@
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <form class="form-signin" action="/moonjava-flight-web/base/login" method="POST">
+            <h2 class="form-signin-heading"><fmt:message key="login.titulo" /></h2>
+            <input type="text" name="login" class="input-block-level" placeholder="<fmt:message key="login.titulo.usuario" />"> 
+            <input type="password" name="pass" class="input-block-level" placeholder="<fmt:message key="login.titulo.senha" /> "> 
+            <button class="btn btn-large btn-primary" type="submit"><fmt:message key="login.botao.entrar" /></button>
+        </form>
+        <c:import url="footer.jsp" />
+    </div>
+    <!-- /container -->
+
 </body>
 </html>

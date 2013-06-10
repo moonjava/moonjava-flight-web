@@ -19,7 +19,7 @@
    <br>
    <div class="control-group">
      <div class="controls">
-	   <img data-src="holder.js/800x500" class="img-rounded" alt="800x500" style="width: 800px; height: 500px; margin-left: 250px;" src="img/aviao_principal.svg.png">
+	   <img data-src="holder.js/800x500" class="img-rounded" alt="800x500" style="width: 800px; height: 500px; margin-left: 250px;" src="/moonjava-flight-web/img/aviao_principal.svg.png">
      </div>
    </div>
 	

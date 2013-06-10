@@ -50,7 +50,7 @@ public interface Usuario {
 
     Usuario consultarPorCpf(CPF cpf);
 
-    Usuario consultarUsuario(RequestParam request);
+    Usuario consultarUsuario(RequestParam request, String cript);
 
     boolean atualizar(Usuario usuario) throws SQLException;
 
@@ -78,7 +78,7 @@ public interface Usuario {
 
   Usuario consultarPorCpf(CPF cpf);
 
-  Usuario consultarUsuario(FlightRequestWrapper request);
+  Usuario consultarUsuario(FlightRequestWrapper request, String cript);
 
   Usuario consultarPorId(int id);
 
