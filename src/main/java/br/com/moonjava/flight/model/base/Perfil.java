@@ -52,6 +52,17 @@ public enum Perfil {
     return res;
   }
 
+  public String setName(String lang) {
+    String res = null;
+    if (lang.toUpperCase().equals("ES"))
+      res = es;
+    else if (lang.toUpperCase().equals("EN"))
+      res = us;
+    else
+      res = br;
+    return res;
+  }
+
   public static Perfil fromString(String nome) {
     if (nome != null) {
       for (Perfil perfil : Perfil.values()) {
