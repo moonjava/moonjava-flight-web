@@ -11,23 +11,18 @@
 <body>
 
   <c:import url="head.jsp" />
-<!-- 
-  <form style="margin-top: 70px;">
-    <select id="language" name="language" onchange="submit()">
-      <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-      <option value="pt" ${language == 'pt' ? 'selected' : ''}>Portugues</option>
-      <option value="es" ${language == 'es' ? 'selected' : ''}>Español</option>
-    </select>
-  </form>
-  <form>
-    <label for="username"><fmt:message key="menubar.aeronave" />:</label> 
-    <input type="text" id="username" name="username"> <br> 
-    <label for="password"><fmt:message key="login.incorreto.messagem" />:</label> 
-    <input type="password" id="password" name="password"> <br>
-    <fmt:message key="login.button.submit" var="buttonValue" />
-    <input type="submit" name="submit" value="${buttonValue}">
-  </form>
- -->
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <div class="control-group">
+     <div class="controls">
+	   <img data-src="holder.js/800x500" class="img-rounded" alt="800x500" style="width: 800px; height: 500px; margin-left: 250px;" src="img/aviao_principal.svg.png">
+     </div>
+   </div>
+	
   <c:import url="footer.jsp" />
 
 </body>

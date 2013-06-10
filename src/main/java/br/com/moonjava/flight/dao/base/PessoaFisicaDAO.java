@@ -58,7 +58,7 @@ public class PessoaFisicaDAO implements PessoaFisica.Jdbc {
         .with("?,", pessoaFisica.getEndereco())
         .with("?,", pessoaFisica.getTelResidencial())
         .with("?,", pessoaFisica.getTelCelular())
-        .with("?)", pessoaFisica.getEmail())
+        .with("?)", pessoaFisica.getEmail() == null ? "--" : pessoaFisica.getEmail())
 
         .andExecute();
 

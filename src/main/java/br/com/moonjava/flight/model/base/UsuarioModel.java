@@ -20,7 +20,7 @@ import java.util.List;
 
 import br.com.moonjava.flight.dao.base.UsuarioDAO;
 import br.com.moonjava.flight.util.CPF;
-import br.com.moonjava.flight.util.RequestParamWrapper;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
 
 /**
  * @version 1.0, Aug 10, 2012
@@ -84,7 +84,7 @@ public class UsuarioModel implements Usuario {
   }
 
   @Override
-  public List<Usuario> consultar(RequestParamWrapper request) {
+  public List<Usuario> consultar(FlightRequestWrapper request) {
     return dao.consultar(request);
   }
 
@@ -99,7 +99,7 @@ public class UsuarioModel implements Usuario {
   }
 
   @Override
-  public Usuario consultarUsuario(RequestParamWrapper request) {
+  public Usuario consultarUsuario(FlightRequestWrapper request) {
     return dao.consultarUsuario(request);
   }
 
@@ -111,6 +111,11 @@ public class UsuarioModel implements Usuario {
   @Override
   public Usuario consultarPorCpf(CPF cpf) {
     return dao.consultarPorCpf(cpf);
+  }
+
+  @Override
+  public Usuario consultarPorId(int id) {
+    return dao.consultarPorId(id);
   }
 
 }

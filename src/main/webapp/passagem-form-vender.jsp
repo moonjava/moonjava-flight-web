@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
@@ -9,7 +10,10 @@
 <!DOCTYPE html>
 <html lang="${language}">
 <body>
-
+  
+  <input type="hidden" id="cpfInvalid" value="<fmt:message key ="criar.pessoafisica.cpf.alerta.erro" />">
+  <input type="hidden" id="cpfvalid" value="<fmt:message key ="criar.pessoafisica.cpf.alerta.ok" />">
+  
   <div class="control-group">
     <label class="control-label" for="codigo"><fmt:message key="vender.passagem.codigo" /></label>
     <div class="controls">
@@ -21,7 +25,7 @@
   <div class="control-group">
     <label class="control-label" for="codigo"><fmt:message key="vender.passagem.titulo.tipo" /></label>
     <div class="controls">
-      <c:if test="${language == 'pt'}">
+      <c:if test="${fn:contains(language, 'pt')}">
         <select id="tipo" name="tipo" class="span3">
           <option value="ADULTO">${adulto.setName('pt')}</option>
           <option value="CRIANCA">${crianca.setName('pt')}</option>
@@ -29,7 +33,7 @@
         </select>
       </c:if>
 
-      <c:if test="${language == 'en'}">
+      <c:if test="${fn:contains(language, 'en')}">
         <select id="tipo" name="tipo" class="span3">
           <option value="ADULTO">${adulto.setName('en')}</option>
           <option value="CRIANCA">${crianca.setName('en')}</option>
@@ -37,7 +41,7 @@
         </select>
       </c:if>
 
-      <c:if test="${language == 'es'}">
+      <c:if test="${fn:contains(language, 'es')}">
         <select id="tipo" name="tipo" class="span3">
           <option value="ADULTO">${adulto.setName('es')}</option>
           <option value="CRIANCA">${crianca.setName('es')}</option>
@@ -70,10 +74,10 @@
       <input id="nascimento" name="nascimento" class="span3 required date" type="text" placeholder="<fmt:message key="criar.pessoafisica.titulo.nascimento" />">
     </div>
   </div>
-  <div class="control-group">
+  <div id="divcpf" class="control-group">
     <label class="control-label" for="cpf"><fmt:message key="criar.pessoafisica.titulo.cpf" /></label>
     <div class="controls">
-      <input id="cpf" name="cpf" class="span3 required cpf" type="text" placeholder="<fmt:message key="criar.pessoafisica.titulo.cpf" />">
+      <input id="cpf" name="cpf" class="span3 required cpf" type="text" onkeyup="validCPF();" placeholder="<fmt:message key="criar.pessoafisica.titulo.cpf" />">
     </div>
   </div>
   <div class="control-group">
@@ -103,13 +107,13 @@
   <div class="control-group">
     <label class="control-label" for="email"><fmt:message key="criar.pessoafisica.titulo.email" /></label>
     <div class="controls">
-      <input id="email" name="email" class="span3 required" type="text" placeholder="<fmt:message key="criar.pessoafisica.titulo.email" />">
+      <input id="email" name="email" class="span3 required" type="email" placeholder="<fmt:message key="criar.pessoafisica.titulo.email" />">
     </div>
   </div>
     <div class="control-group">
     <label class="control-label" for="tratamento"><fmt:message key="vender.passagem.titulo.tratamento" /></label>
     <div class="controls">
-      <c:if test="${language == 'pt'}">
+      <c:if test="${fn:contains(language, 'pt')}">
         <select id="tratamento" name="tratamento" class="span3">
           <option value="SR">${sr.setName('pt')}</option>
           <option value="SRA">${sra.setName('pt')}</option>
@@ -117,7 +121,7 @@
         </select>
       </c:if>
 
-      <c:if test="${language == 'en'}">
+      <c:if test="${fn:contains(language, 'en')}">
         <select id="tratamento" name="tratamento" class="span3">
           <option value="SR">${sr.setName('en')}</option>
           <option value="SRA">${sra.setName('en')}</option>
@@ -125,7 +129,7 @@
         </select>
       </c:if>
 
-      <c:if test="${language == 'es'}">
+      <c:if test="${fn:contains(language, 'es')}">
         <select id="tratamento" name="tratamento" class="span3">
           <option value="SR">${sr.setName('es')}</option>
           <option value="SRA">${sra.setName('es')}</option>
@@ -183,7 +187,7 @@
     });
     
   });
-
+  
   jQuery(function($) {
     $(".cpf").mask("999.999.999-99", {
       placeholder : "_"

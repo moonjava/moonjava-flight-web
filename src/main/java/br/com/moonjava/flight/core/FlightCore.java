@@ -16,6 +16,7 @@
 package br.com.moonjava.flight.core;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,14 +28,14 @@ import org.slf4j.LoggerFactory;
  * @version 1.0 Apr 18, 2013
  * @contact tiago.aguiar@moonjava.com.br
  * 
- *          Este é Core do projeto, sendo iniciado pelo Container Web, os
- *          pré-requisitos da aplicação como Logs devem ser iniciados através do
- *          Core
+ *          Este é Core do projeto, sendo iniciado pelo Container Web, os pré-requisitos da
+ *          aplicação como Logs devem ser iniciados através do Core
  * 
  */
 public class FlightCore implements ServletContextListener {
 
   private static FlightCore core = new FlightCore();
+  private ResourceBundle bundle;
   private Logger log;
 
   public static FlightCore getInstance() {

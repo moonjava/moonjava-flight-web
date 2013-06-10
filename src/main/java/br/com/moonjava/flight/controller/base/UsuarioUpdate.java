@@ -37,7 +37,7 @@ public class UsuarioUpdate implements Usuario.Builder {
   @Override
   public Usuario createInstance() {
     UsuarioModel impl = new UsuarioModel(this);
-    impl.setId(request.intParam("id"));
+    impl.setId(request.intParam("usuario_id"));
     return impl;
   }
 

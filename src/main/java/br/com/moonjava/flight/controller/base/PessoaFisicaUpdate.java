@@ -59,8 +59,8 @@ public class PessoaFisicaUpdate implements PessoaFisica.Builder {
 
   @Override
   public CPF getCpf() {
-    Long value = request.longParam("cpf");
-    return CPF.valueOf(value);
+    String value = request.stringParam("cpf");
+    return CPF.parse(value);
   }
 
   @Override

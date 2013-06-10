@@ -2,6 +2,7 @@
 <%@ page language="java" import="br.com.moonjava.flight.model.base.Status"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
@@ -29,21 +30,21 @@
             <input id="chegada" class="span2" type="text" placeholder="<fmt:message key="consultar.voo.titulo.chegada" />" />
             <c:set var="enumStatus" value="<%=Status.values()%>" />
 
-            <c:if test="${language == 'pt'}">
+            <c:if test="${fn:contains(language, 'pt')}">
               <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
                 <c:forEach var="current" items="${enumStatus}">
                   <option value="${current}">${current.setName('pt')}</option>
                 </c:forEach>
               </select>
             </c:if>
-            <c:if test="${language == 'en'}">
+            <c:if test="${fn:contains(language, 'en')}">
               <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
                 <c:forEach var="current" items="${enumStatus}">
                   <option value="${current}">${current.setName('en')}</option>
                 </c:forEach>
               </select>
             </c:if>
-            <c:if test="${language == 'es'}">
+            <c:if test="${fn:contains(language, 'es')}">
               <select id="statusHidden" class="span2" title="<fmt:message key="consultar.voo.titulo.status" />">
                 <c:forEach var="current" items="${enumStatus}">
                   <option value="${current}">${current.setName('es')}</option>
