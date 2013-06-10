@@ -106,6 +106,15 @@ public class UsuarioDAO implements Usuario.Jdbc {
   }
 
   @Override
+  public Usuario consultarPorId(int id) {
+    return query()
+
+        .with("where USUARIO.ID = ?", id)
+
+        .andGet();
+  }
+
+  @Override
   public boolean atualizar(Usuario usuario) throws SQLException {
     boolean executed = new SqlStatementWrapper()
         .prepare()

@@ -19,8 +19,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.util.CPF;
+import br.com.moonjava.flight.util.FlightRequestWrapper;
 import br.com.moonjava.flight.util.RequestParam;
-import br.com.moonjava.flight.util.RequestParamWrapper;
 
 /**
  * @version 1.0, Aug 10, 2012
@@ -56,6 +56,8 @@ public interface Usuario {
 
     void deletar(int id) throws SQLException;
 
+    Usuario consultarPorId(int id);
+
   }
 
   int getId();
@@ -72,11 +74,13 @@ public interface Usuario {
 
   void criar(Usuario pojo) throws SQLException;
 
-  List<Usuario> consultar(RequestParamWrapper request);
+  List<Usuario> consultar(FlightRequestWrapper request);
 
   Usuario consultarPorCpf(CPF cpf);
 
-  Usuario consultarUsuario(RequestParamWrapper request);
+  Usuario consultarUsuario(FlightRequestWrapper request);
+
+  Usuario consultarPorId(int id);
 
   void atualizar(Usuario pojo) throws SQLException;
 

@@ -19,14 +19,14 @@
       <div class="row">
         <div class="panel">
           <div id="container" class="panel-hd">
-            <h4><fmt:message key="menubar.passagem" /></h4>
+            <h4><fmt:message key="menubar.usuario" /></h4>
 
             <input type="hidden" id="errorMsg" value="<fmt:message key="erro.campo.vazio" />">
             <div id="notification"></div>
 
           </div>
 
-          <form id="form" action="/moonjava-flight-web/base/passagem/vender" method="POST" style="margin-top: 10px;" class="form-horizontal">
+          <form id="form" action="/moonjava-flight-web/base/usuario/update" method="POST" style="margin-top: 10px;" class="form-horizontal">
             <div id="content"></div>
           </form>
 
@@ -52,7 +52,7 @@
   window.addEvent('domready', function() {
     new Request.HTML({
       method : 'get',
-      url : '/moonjava-flight-web/base/passagem/vender',
+      url : '/moonjava-flight-web/base/usuario/update',
       data : params,
       update : document.id('content')
     }).send();
@@ -111,6 +111,11 @@
 	}
 	return true;
   }
+  
+  jQuery(function($) {
+      $("#cpf").mask("999.999.999-99");
+      $("#nascimento").mask("99/99/9999");
+  });
 </script>
 </body>
 </html>

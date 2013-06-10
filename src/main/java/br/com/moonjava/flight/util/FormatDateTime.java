@@ -66,7 +66,7 @@ public final class FormatDateTime {
     }
   }
 
-  public static LocalDate parseToLocalDate(String value, String country) {
+  public static LocalDate parseToLocalDate(String value) {
     try {
       Date date = new SimpleDateFormat("MM/dd/yyyy").parse(value);
       String format = new SimpleDateFormat("yyyy-MM-dd").format(date);

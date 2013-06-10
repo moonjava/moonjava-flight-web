@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda"%>
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
@@ -42,19 +43,19 @@
             <td>${voo.destino}</td>
             <td>${voo.escala}</td>
 
-            <c:if test="${language == 'pt'}">
+            <c:if test="${fn:contains(language, 'pt')}">
               <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td>${voo.status.setName('pt')}</td>
             </c:if>
 
-            <c:if test="${language == 'en'}">
+            <c:if test="${fn:contains(language, 'en')}">
               <td><joda:format value="${voo.dataDePartida}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="MM/dd/yyyy HH:mm:ss a" /></td>
               <td>${voo.status.setName('en')}</td>
             </c:if>
 
-            <c:if test="${language == 'es'}">
+            <c:if test="${fn:contains(language, 'es')}">
               <td><joda:format value="${voo.dataDePartida}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td><joda:format value="${voo.dataDeChegada}" pattern="dd/MM/yyyy HH:mm:ss" /></td>
               <td>${voo.status.setName('es')}</td>

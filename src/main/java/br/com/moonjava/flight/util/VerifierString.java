@@ -38,9 +38,8 @@ public class VerifierString {
     return matcher.find();
   }
 
-  public static boolean isBirthDay(String word, ResourceBundle bundle) {
+  public static boolean isBirthDay(String word, String country) {
     boolean birthDay = false;
-    String country = bundle.getString("country");
     LocalDate date = FormatDateTimeDesk.parseToLocalDate(word, country);
     boolean leapYear = new GregorianCalendar().isLeapYear(date.getYear());
     LocalDate now = new LocalDate();

@@ -72,6 +72,12 @@
               <li><a href="/moonjava-flight-web/criar-aeronave.jsp"><fmt:message key="aeronave.cadastrar" /></a></li>
             </ul>
           </li>
+          <li class="dropdown" id="menu2"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><fmt:message key="menubar.usuario" /><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/moonjava-flight-web/consultar-usuario.jsp"><fmt:message key="usuario.consultar" /></a></li>
+              <li><a href="/moonjava-flight-web/criar-usuario.jsp"><fmt:message key="usuario.cadastrar" /></a></li>
+            </ul>
+          </li>
           <li><img src="/moonjava-flight-web/img/brazil-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('pt');"></li>
           <li><img src="/moonjava-flight-web/img/us-united-states-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('en');"></li>
           <li><img src="/moonjava-flight-web/img/spain-flag-icon.png" style="cursor: pointer; margin-top: 3px;" onclick="flightBundle('es');"></li>

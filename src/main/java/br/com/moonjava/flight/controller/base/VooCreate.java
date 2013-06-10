@@ -55,7 +55,7 @@ public class VooCreate implements Voo.Builder {
 
   @Override
   public Aeronave getAeronave() {
-    return new AeronaveDAO().consultarPorId(1/*request.intParam("aeronave")*/);
+    return new AeronaveDAO().consultarPorId(request.intParam("aeronave"));
   }
 
   @Override
