@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import br.com.moonjava.flight.dao.base.AeronaveDAO;
+import br.com.moonjava.flight.jdbc.Database;
+import br.com.moonjava.flight.jdbc.FactoryJdbc;
 import br.com.moonjava.flight.util.RequestParam;
 
 /**
@@ -47,7 +49,13 @@ public class AeronaveModel implements Aeronave {
   }
 
   public AeronaveModel() {
-    this.dao = new AeronaveDAO();
+    Database database = FactoryJdbc.getInstance().getDatabase();
+    if(database.equals(Database.MYSQL))
+      dao = new AeronaveDAO();
+    if(database.equals(Database.ORACLE))
+      dao = null;
+    if(database.equals(Database.SQL_SERVER))
+      dao = null;
   }
 
   @Override

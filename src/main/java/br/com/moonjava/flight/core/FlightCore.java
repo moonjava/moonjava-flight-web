@@ -15,8 +15,10 @@
  */
 package br.com.moonjava.flight.core;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.ResourceBundle;
+import java.io.InputStreamReader;
+import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -24,6 +26,7 @@ import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.moonjava.flight.jdbc.Database;
 import br.com.moonjava.flight.model.base.Usuario;
 
 /**
@@ -37,9 +40,9 @@ import br.com.moonjava.flight.model.base.Usuario;
 public class FlightCore implements ServletContextListener {
 
   private static FlightCore core = new FlightCore();
-  private ResourceBundle bundle;
   private Logger log;
   private Usuario usuarioLogado;
+  private Database jdbc;
 
   public static FlightCore getInstance() {
     return core != null ? core : new FlightCore(); // Singleton
@@ -49,6 +52,7 @@ public class FlightCore implements ServletContextListener {
   public void contextInitialized(ServletContextEvent sce) {
     core = this;
     initLog();
+    initDatabase();
   }
 
   @Override
@@ -68,6 +72,21 @@ public class FlightCore implements ServletContextListener {
 
     log.info("Starting Log Flight Web");
   }
+  
+  private void initDatabase() {
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/jdbc.properties")));
+
+      Properties properties = new Properties();
+      properties.load(reader);
+
+      jdbc = Database.valueOf(properties.getProperty("jdbc").toUpperCase());
+      
+      log.info("Database loaded [" + jdbc + "]");
+    } catch (Exception e) {
+      core.logError(e.getMessage(), e);
+    }
+  }
 
   public void logError(String msg, Exception e) {
     log.error(msg, e);
@@ -83,6 +102,10 @@ public class FlightCore implements ServletContextListener {
 
   public void setUsuarioLogado(Usuario usuarioLogado) {
     this.usuarioLogado = usuarioLogado;
+  }
+
+  public Database getJdbc() {
+    return jdbc;
   }
 
 }

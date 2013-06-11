@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Hours;
 
 import br.com.moonjava.flight.dao.base.PassagemDAO;
+import br.com.moonjava.flight.jdbc.Database;
+import br.com.moonjava.flight.jdbc.FactoryJdbc;
 
 public class PassagemModel implements Passagem {
 
@@ -25,7 +27,13 @@ public class PassagemModel implements Passagem {
   }
 
   public PassagemModel() {
-    dao = new PassagemDAO();
+    Database database = FactoryJdbc.getInstance().getDatabase();
+    if(database.equals(Database.MYSQL))
+      dao = new PassagemDAO();
+    if(database.equals(Database.ORACLE))
+      dao = null;
+    if(database.equals(Database.SQL_SERVER))
+      dao = null;
   }
 
   public void setId(int id) {

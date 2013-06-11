@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import org.joda.time.LocalDate;
 
 import br.com.moonjava.flight.dao.base.PessoaFisicaDAO;
+import br.com.moonjava.flight.jdbc.Database;
+import br.com.moonjava.flight.jdbc.FactoryJdbc;
 import br.com.moonjava.flight.util.CPF;
 
 /**
@@ -54,7 +56,13 @@ public class PessoaFisicaModel implements PessoaFisica {
   }
 
   public PessoaFisicaModel() {
-    dao = new PessoaFisicaDAO();
+    Database database = FactoryJdbc.getInstance().getDatabase();
+    if(database.equals(Database.MYSQL))
+      dao = new PessoaFisicaDAO();
+    if(database.equals(Database.ORACLE))
+      dao = null;
+    if(database.equals(Database.SQL_SERVER))
+      dao = null;
   }
 
   public void setId(int id) {

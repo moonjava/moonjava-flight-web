@@ -21,6 +21,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import br.com.moonjava.flight.dao.base.VooDAO;
+import br.com.moonjava.flight.jdbc.Database;
+import br.com.moonjava.flight.jdbc.FactoryJdbc;
 import br.com.moonjava.flight.util.RequestParam;
 
 /**
@@ -59,7 +61,13 @@ public class VooModel implements Voo {
   }
 
   public VooModel() {
-    dao = new VooDAO();
+    Database database = FactoryJdbc.getInstance().getDatabase();
+    if(database.equals(Database.MYSQL))
+      dao = new VooDAO();
+    if(database.equals(Database.ORACLE))
+      dao = null;
+    if(database.equals(Database.SQL_SERVER))
+      dao = null;
   }
 
   @Override

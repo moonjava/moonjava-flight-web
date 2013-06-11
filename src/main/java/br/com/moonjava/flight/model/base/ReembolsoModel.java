@@ -18,6 +18,8 @@ package br.com.moonjava.flight.model.base;
 import java.sql.SQLException;
 
 import br.com.moonjava.flight.dao.base.ReembolsoDAO;
+import br.com.moonjava.flight.jdbc.Database;
+import br.com.moonjava.flight.jdbc.FactoryJdbc;
 import br.com.moonjava.flight.util.CPF;
 
 /**
@@ -48,7 +50,13 @@ public class ReembolsoModel implements Reembolso {
   }
 
   public ReembolsoModel() {
-    dao = new ReembolsoDAO();
+    Database database = FactoryJdbc.getInstance().getDatabase();
+    if(database.equals(Database.MYSQL))
+      dao = new ReembolsoDAO();
+    if(database.equals(Database.ORACLE))
+      dao = null;
+    if(database.equals(Database.SQL_SERVER))
+      dao = null;    
   }
 
   public void setId(int id) {
