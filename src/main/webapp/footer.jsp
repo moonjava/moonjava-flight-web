@@ -4,7 +4,7 @@
 <body>
   <div id="ft">
     <div>
-      <p>Desenvolvido por Miqueias da Silva Vieira e Tiago Aguiar Ferreira da Silva</p>
+      <p></p>
       <p>&copy;2013</p>
     </div>
   </div>
